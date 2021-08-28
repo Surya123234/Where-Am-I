@@ -7,6 +7,17 @@
     <title>Where Am I?</title>
 </head>
 <body>
-    <h1>Where Am I?</h1>
+    <ul>
+        {% for tribe in tribes %}
+            <li>Tribe Name: {{ tribe.name }} </li>
+            <li>Lat: {{ tribe.latitude }} </li>
+            <li>Long: {{ tribe.longitude }} </li>
+            <hr>
+        {% endfor %}
+
+
+
+    </ul>
+
 </body>
 </html>
