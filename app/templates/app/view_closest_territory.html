@@ -35,7 +35,9 @@
           dataType: 'json',
           success: function (data) {
             window.location.replace(
-              `/view_result?name=${data.name}&summary=${data.summary}&link=${data.link}`
+              `/view_result?name=${data.name}`
+              // `/view_result?name=${data.name}&summary=${data.summary}&link=${data.link}`
+              
             );
           },
           failure: function () {

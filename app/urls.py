@@ -4,9 +4,10 @@ from . import views
 app_name = "app"
 
 urlpatterns = [
-    path("", views.index, name="index"),
+    path("", views.homepage, name="homepage"),
+    path("explore_tribes/", views.explore_tribes, name="explore_tribes"),
     path(
-        "view_closest_territory",
+        "view_closest_territory/",
         views.view_closest_territory,
         name="view_closest_territory",
     ),

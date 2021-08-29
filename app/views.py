@@ -9,8 +9,16 @@ import wikipedia
 # Create your views here.
 
 
+def homepage(request):
+    return render(request, "app/Homepage.html")
+
+
 def index(request):
     return render(request, "app/index.html", {"tribes": Tribe.objects.all()})
+
+
+def explore_tribes(request):
+    return render(request, "app/exploreTribes.html")
 
 
 def view_closest_territory(request):
@@ -40,21 +48,12 @@ def ajax_filter(request):
                 distance = tempDistance
                 name = tribe.name
 
-        # wikipedia stuff
-        try:
-            summary = wikipedia.summary(name)
-            link = wikipedia.page(name).url
-        except:
-            pass
-
-        # return the TribeName, Long, Lat, Wiki Summary
+        # return the TribeName
         return JsonResponse(
             {
                 "success": True,
                 "name": name,
-                "summary": summary,
-                "link": link,
-                "url": reverse("app:view_result"),
+                # "url": reverse("app:view_result"),
             },
             safe=False,
         )
@@ -63,8 +62,13 @@ def ajax_filter(request):
 
 def view_result(request):
     name = request.GET.get("name", None)
-    summary = request.GET.get("summary", None)
-    link = request.GET.get("link", None)
+
+    # wikipedia stuff
+    try:
+        summary = wikipedia.summary(name)
+        link = wikipedia.page(name).url
+    except:
+        pass
 
     return render(
         request,
