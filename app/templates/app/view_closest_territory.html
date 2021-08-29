@@ -1,50 +1,13 @@
-<!DOCTYPE html>
-<html>
-  <body>
+{% extends "app/layout.html" %}
+
+{% block title %}
+  View Closest Territory
+{% endblock %}
+
+
+{% block body %}
     <button onclick="getLocation()">Get coordinates</button>
     <!-- button to enable geolocation api -->
     <p id="demo"></p>
-    <!-- result -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-      var x = document.getElementById('demo');
-      let lat = 0,
-        long = 0; // coordinates
+{% endblock %}
 
-      function getLocation() {
-        //geolocation api
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(showPosition);
-        } else {
-          x.innerHTML = 'Geolocation is not supported by this browser.';
-        }
-      }
-
-      function showPosition(position) {
-        // sending coords to django
-        (lat = position.coords.latitude.toFixed(2)),
-          (long = position.coords.longitude.toFixed(2));
-        x.innerHTML = 'Latitude: ' + lat + '<br>Longitude: ' + long;
-        $.ajax({
-          type: 'GET',
-          url: '/ajax_filter',
-          data: {
-            lat: lat,
-            long: long,
-          },
-          dataType: 'json',
-          success: function (data) {
-            window.location.replace(
-              `/view_result?name=${data.name}`
-              // `/view_result?name=${data.name}&summary=${data.summary}&link=${data.link}`
-              
-            );
-          },
-          failure: function () {
-            alert('failure');
-          },
-        });
-      }
-    </script>
-  </body>
-</html>
