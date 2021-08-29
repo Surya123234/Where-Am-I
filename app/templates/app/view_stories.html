@@ -1,0 +1,19 @@
+{% extends "app/layout.html" %}
+
+{% block title %}
+  View Stories
+{% endblock %}
+
+{% block body %}
+
+
+    {% for story in stories %}
+        {% for key, value in story.items %}
+        <h2>{{ key }}</h2>
+        <p> {{ value }}</p>
+        <hr>
+        {% endfor %}
+    {% endfor %}
+
+
+{% endblock %}

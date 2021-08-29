@@ -1,0 +1,17 @@
+{% extends "app/layout.html" %}
+
+{% block title %}
+  Create Story
+{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block body %}
+<h1>Create a New Story Here</h1>
+<form action="{% url 'app:create_story' %} " method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button type="submit" class="btn btn-success">Create Story</button>
+
+</form>
+{% endblock %}
