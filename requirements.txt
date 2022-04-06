@@ -1,0 +1,22 @@
+asgiref==3.5.0
+beautifulsoup4==4.10.0
+certifi==2021.10.8
+charset-normalizer==2.0.12
+dj-database-url==0.5.0
+Django==4.0.3
+django-crispy-forms==1.14.0
+django-heroku==0.3.1
+django-on-heroku==1.1.2
+djangorestframework==3.13.1
+ez-setup==0.9
+gunicorn @ git+https://github.com/benoitc/gunicorn.git@933b210f2eff943f4cd9502c676f3d93c82f171c
+idna==3.3
+psycopg2==2.9.3
+psycopg2-binary==2.9.3
+pytz==2022.1
+requests==2.27.1
+soupsieve==2.3.1
+sqlparse==0.4.2
+urllib3==1.26.9
+whitenoise==6.0.0
+wikipedia==1.4.0

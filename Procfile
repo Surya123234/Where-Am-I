@@ -1,0 +1,1 @@
+web gunicorn WhereAmI.wsgi:application --log-file -
