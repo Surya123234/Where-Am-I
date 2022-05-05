@@ -7,6 +7,7 @@ def register(request):
     if request.method == "POST":
         form = UserCreationForm(request.POST)
         if form.is_valid():
+            # Saves user in user DB
             form.save()
         return redirect("/")
     else:
