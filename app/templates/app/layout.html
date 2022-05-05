@@ -56,9 +56,8 @@
             </div>
         </div>
         <div class="navbar-nav ms-auto">
-                <a href="/login" class="nav-link">Login</a>
-                <a href="/logout" class="nav-link">Logout</a>
-                <a href="/register" class="nav-link">Register</a>
+            {% block user_links %}
+            {% endblock %}
         </div>
     </nav>
 

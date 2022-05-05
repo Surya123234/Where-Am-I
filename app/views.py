@@ -1,3 +1,4 @@
+from re import L
 from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
@@ -15,15 +16,18 @@ stories = []
 
 
 def homepage(request):
-    return render(request, "app/Homepage.html")
+    username = request.user.username
+    return render(request, "app/Homepage.html", {"username": username})
 
 
 def explore_tribes(request):
-    return render(request, "app/exploreTribes.html")
+    username = request.user.username
+    return render(request, "app/exploreTribes.html", {"username": username})
 
 
 def view_closest_territory(request):
-    return render(request, "app/view_closest_territory.html")
+    username = request.user.username
+    return render(request, "app/view_closest_territory.html", {"username": username})
 
 
 def ajax_filter(request):
@@ -79,21 +83,18 @@ def view_result(request):
 
 
 def view_stories(request):
-    """all_locations = []
-    all_details = []
-    for story in stories:
-        for the_key in story.keys():
-            all_locations.append(the_key)
-            all_details.append(story[the_key])"""
+    username = request.user.username
     return render(
         request,
         "app/view_stories.html",
-        {"stories": stories},
+        {"stories": stories, "username": username},
     )
 
 
 @login_required
 def create_story(request):
+    username = request.user.username
+
     if request.method == "POST":
         form = newStoryForm(request.POST)
         if form.is_valid():
@@ -103,6 +104,10 @@ def create_story(request):
             return redirect(reverse("app:view_stories"))
 
         else:
-            return render(request, "app/create_story", {"form": form})
+            return render(
+                request, "app/create_story", {"form": form, "username": username}
+            )
 
-    return render(request, "app/create_story.html", {"form": newStoryForm()})
+    return render(
+        request, "app/create_story.html", {"form": newStoryForm(), "username": username}
+    )

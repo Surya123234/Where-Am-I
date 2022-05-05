@@ -4,9 +4,18 @@
   View Stories
 {% endblock %}
 
+{% block user_links %}
+  {% if username %}
+    <a class="nav-link" href="/login">Switch User</a>
+    <a class="nav-link" href="/logout">Logout</a>
+    <p class="nav-user">Welcome, {{ username }}</h4>
+  {% else %}
+    <a class="nav-link" href="/login">Login</a>
+    <a class="nav-link" href="/register">Register</a>
+  {% endif %}
+{% endblock user_links %}
+
 {% block body %}
-
-
     {% for story in stories %}
         {% for key, value in story.items %}
         <h2>{{ key }}</h2>
@@ -14,6 +23,4 @@
         <hr>
         {% endfor %}
     {% endfor %}
-
-
 {% endblock %}

@@ -31,9 +31,14 @@
                 >Explore Tribes</a
               >
               <a class="nav-link" href="/view_closest_territory">Find Territory</a>
-              <a class="nav-link" href="/login">Login</a>
-              <a class="nav-link" href="/logout">Logout</a>
-              <a class="nav-link" href="/register">Register</a>
+              {% if username %}
+                <a class="nav-link" href="/login">Switch User</a>
+                <a class="nav-link" href="/logout">Logout</a>
+                <p class="nav-user">Welcome, {{ username }}</h4>
+              {% else %}
+                <a class="nav-link" href="/login">Login</a>
+                <a class="nav-link" href="/register">Register</a>
+              {% endif %}
             </nav>
           </div>
         </header>
