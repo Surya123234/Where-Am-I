@@ -56,7 +56,7 @@ open up `http://127.0.0.1:8000/` on your broswer to access the app!
 `POST create_story/`: Submits the story information, saves it to the DB, and redirects the user to view all stories
 
 
-## Future of the App
+# Future of the App
 More updates are on the way, and an iOS app is soon to be made to allow for easy mobile access! Let's all make an effort to increase awareness of Canada's Indigenous communities!!
 
 
