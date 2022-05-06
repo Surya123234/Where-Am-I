@@ -2,5 +2,5 @@ from django import forms
 
 
 class newStoryForm(forms.Form):
-    name = forms.CharField(label="Story Location:", widget=forms.TextInput())
-    details = forms.CharField(label="Details:", widget=forms.Textarea())
+    title = forms.CharField(label="Story:", widget=forms.TextInput())
+    content = forms.CharField(label="Content:", widget=forms.Textarea())

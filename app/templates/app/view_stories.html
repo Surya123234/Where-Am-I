@@ -17,10 +17,9 @@
 
 {% block body %}
     {% for story in stories %}
-        {% for key, value in story.items %}
-        <h2>{{ key }}</h2>
-        <p> {{ value }}</p>
-        <hr>
-        {% endfor %}
+      <h2>{{ story.title }}</h2>
+      <p> {{ story.content }}</p>
+      <p>Created by: {{ story.user }}</p>
+      <hr>
     {% endfor %}
 {% endblock %}

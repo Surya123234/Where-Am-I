@@ -4,15 +4,12 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from .models import Tribe
+from .models import Story, Tribe
 from .forms import newStoryForm
 import math
 import wikipedia
 
 # Create your views here.
-
-stories = []
-# have a list of dictionaries, the key will be location the value will be the story
 
 
 def homepage(request):
@@ -85,6 +82,7 @@ def view_result(request):
 
 def view_stories(request):
     username = request.user.username
+    stories = Story.objects.all()
     return render(
         request,
         "app/view_stories.html",
@@ -99,9 +97,10 @@ def create_story(request):
     if request.method == "POST":
         form = newStoryForm(request.POST)
         if form.is_valid():
-            name = form.cleaned_data["name"]
-            details = form.cleaned_data["details"]
-            stories.append({name: details})
+            title = form.cleaned_data["title"]
+            content = form.cleaned_data["content"]
+            Story.objects.create(user=request.user, title=title, content=content)
+
             return redirect(reverse("app:view_stories"))
 
         else:
