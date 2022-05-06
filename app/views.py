@@ -67,6 +67,7 @@ def ajax_filter(request):
 
 def view_result(request):
     name = request.GET.get("name", None)
+    username = request.user.username
 
     # wikipedia stuff
     try:
@@ -78,7 +79,7 @@ def view_result(request):
     return render(
         request,
         "app/view_result.html",
-        {"name": name, "summary": summary, "link": link},
+        {"name": name, "summary": summary, "link": link, "username": username},
     )
 
 

@@ -1,65 +1,52 @@
-<!DOCTYPE html>
-<html style="font-size: 16px;">
+{% extends 'app/layout.html' %}
 
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="utf-8">
-    <meta name="keywords" content="Tribe Name">
-    <meta name="description" content="">
-    <meta name="page_type" content="np-template-header-footer-from-plugin">
-    <title>Home</title>
-    <link rel="stylesheet" href="../../static/app/wiki-page-files/nicepage.css" media="screen">
-    <link rel="stylesheet" href="../../static/app/wiki-page-files/Home.css" media="screen">
-    <script class="u-script" type="text/javascript" src="../../static/app/wiki-page-files/jquery.js" defer=""></script>
-    <script class="u-script" type="text/javascript" src="../../static/app/wiki-page-files/nicepage.js" defer=""></script>
-    <meta name="generator" content="Nicepage 3.23.2, nicepage.com">
-    <link id="u-theme-google-font" rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i">
+{% block title %}
+    View Summary
+{% endblock %}
 
+{% block user_links %}
+  {% if username %}
+    <a class="nav-link" href="/login">Switch User</a>
+    <a class="nav-link" href="/logout">Logout</a>
+    <p class="nav-user">Welcome, {{ username }}</h4>
+  {% else %}
+    <a class="nav-link" href="/login">Login</a>
+    <a class="nav-link" href="/register">Register</a>
+  {% endif %}
+{% endblock user_links %}
 
-    <script type="application/ld+json">{
-		"@context": "http://schema.org",
-		"@type": "Organization",
-		"name": ""
-}</script>
-    <meta name="theme-color" content="#478ac9">
-    <meta property="og:title" content="Home">
-    <meta property="og:type" content="website">
-</head>
-
-<body data-home-page="../../static/app/wiki-page-files/Home.html" data-home-page-title="Home" class="u-body">
-    <header class="u-clearfix u-header u-header" id="sec-7b7d">
-        <div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
-            <h1 class="u-text u-text-default u-title u-text-1">{{name}}</h1>
-        </div>
-    </header>
-    <section class="u-clearfix u-section-1" id="carousel_c584">
-        <div class="u-clearfix u-expanded-width u-layout-wrap u-layout-wrap-1">
-            <div class="u-layout">
-                <div class="u-layout-row">
-                    <div class="u-size-25">
-                        <div class="u-layout-row">
-                            <div class="u-align-center u-container-style u-image u-layout-cell u-size-60 u-image-1"
-                                data-image-width="121" data-image-height="150">
-                                <div class="u-container-layout u-container-layout-1"></div>
+{% block body %}
+    <div data-home-page="../../static/app/wiki-page-files/Home.html" data-home-page-title="Home" class="u-body">
+        <header class="u-clearfix u-header u-header" id="sec-7b7d">
+            <div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
+                <h1 class="u-text u-text-default u-title u-text-1">{{name}}</h1>
+            </div>
+        </header>
+        <section class="u-clearfix u-section-1" id="carousel_c584">
+            <div class="u-clearfix u-expanded-width u-layout-wrap u-layout-wrap-1">
+                <div class="u-layout">
+                    <div class="u-layout-row">
+                        <div class="u-size-25">
+                            <div class="u-layout-row">
+                                <div class="u-align-center u-container-style u-image u-layout-cell u-size-60 u-image-1"
+                                    data-image-width="121" data-image-height="150">
+                                    <div class="u-container-layout u-container-layout-1"></div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="u-size-35">
-                        <div class="u-layout-col">
-                            <div class="u-container-style u-layout-cell u-size-60 u-layout-cell-2">
-                                <div class="u-container-layout u-container-layout-2">
-                                    <h5 class="u-text u-text-1">Summary About Tribe</h5>
-                                    <p class="u-text u-text-2">{{summary}}</p>
+                        <div class="u-size-35">
+                            <div class="u-layout-col">
+                                <div class="u-container-style u-layout-cell u-size-60 u-layout-cell-2">
+                                    <div class="u-container-layout u-container-layout-2">
+                                        <h5 class="u-text u-text-1">Summary About Tribe</h5>
+                                        <p class="u-text u-text-2">{{summary}}</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-
-</body>
-
-</html>
+        </section>
+    </div>
+{% endblock %}
