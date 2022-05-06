@@ -15,4 +15,5 @@ urlpatterns = [
     path("view_result/", views.view_result, name="view_result"),
     path("view_stories/", views.view_stories, name="view_stories"),
     path("create_story", views.create_story, name="create_story"),
+    path("my_stories", views.my_stories, name="my_stories"),
 ]

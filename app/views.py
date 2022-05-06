@@ -91,6 +91,16 @@ def view_stories(request):
 
 
 @login_required
+def my_stories(request):
+    stories = Story.objects.filter(user=request.user)
+    return render(
+        request,
+        "app/my_stories.html",
+        {"stories": stories, "username": request.user.username},
+    )
+
+
+@login_required
 def create_story(request):
     username = request.user.username
 
