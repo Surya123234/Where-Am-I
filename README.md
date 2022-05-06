@@ -1,7 +1,6 @@
 
 # Summary
-ChatrPlanr is a web app that integrates a group calendar to chat, schedule and view events with friends or clubs.
-Made with React.js, HTML, CSS and leveraged the FullCalendar and Getstream SDK to aid with calendar and chat integration.
+Where Am I is an innovative full-stack app allowing users to learn about which Indigenous land they are on and about any Indigenous land across Canada and America, and post tribe info to a feed with CRUD operations. It leverages the Google Geolocation API to get user lat/long and the Wikipedia API to get land summaries. It was nade using Javascript, Django, and SQLite
 
 # How to run the project locally
 clone the repo using `git clone https://github.com/Surya123234/Where-Am-I.git` 
@@ -32,12 +31,34 @@ open up `http://127.0.0.1:8000/` on your broswer to access the app!
 ### Logout
 `GET logout/`: Allows users to log out of their account
 
+### Explore Tribes
+`GET explore_tribes/`: Allows users to pick and view any Indigenous land across Canada and the United States
 
-view story GET
+### View Closest Territory
+`GET view_closest_territory/`: Allows users to submit their location, in order to learn about the Indigenous territory they are on
 
-create Story GET and POST
+`GET ajax_filter/` (Internal): Calculates the closest Indigenous territory compared to the user's location
+  - Request Paramaters:
+    - `lat`: The user's latitude
+    - `long`: The user's longitude
 
-look at urls py and views.py for the rest
+### View Tribe/Territory Summary
+`GET view_result/`: Displays the summary of the specified Indigenous tribe
+  - Request Paramaters:
+    - `name`: The tribe's name
+   
+### View Stories
+`GET view_stories/`: Allows users to view all the stories about any Indigenous tribe or territory
+
+### Create Story
+`GET create_story/`: Allows users to enter story information on a form
+
+`POST create_story/`: Submits the story information, saves it to the DB, and redirects the user to view all stories
+
+
+## Future of the App
+More updates are on the way, and an iOS app is soon to be made to allow for easy mobile access! Let's all make an effort to increase awareness of Canada's Indigenous communities!!
+
 
 
 
