@@ -9,7 +9,8 @@ def register(request):
         if form.is_valid():
             # Saves user in user DB
             form.save()
-        return redirect("/")
+            return redirect("/login")
+        return render(request, "register/register.html", {"form": form})
     else:
         form = UserCreationForm()
 
