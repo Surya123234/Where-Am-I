@@ -1,4 +1,5 @@
 from re import L
+import re
 from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
@@ -115,7 +116,7 @@ def create_story(request):
 
         else:
             return render(
-                request, "app/create_story", {"form": form, "username": username}
+                request, "app/create_story.html", {"form": form, "username": username}
             )
 
     return render(
@@ -125,12 +126,24 @@ def create_story(request):
 
 @login_required
 def update_story(request, id):
+    user = request.user
+    username = user.username
+
     try:
         story = Story.objects.get(id=int(id))
     except Story.DoesNotExist:
-        return render(request, "app/tribe_does_not_exist.html")
+        return render(
+            request,
+            "app/story_does_not_exist.html",
+            {"username": username},
+        )
 
-    username = request.user.username
+    if user != story.user:
+        return render(
+            request,
+            "app/permission_error.html",
+            {"action": "edit", "username": username},
+        )
 
     if request.method == "POST":
         form = newStoryForm(request.POST)
@@ -143,7 +156,7 @@ def update_story(request, id):
         else:
             form.fields["title"].widget.attrs["readonly"] = True
             return render(
-                request, "app/update_story", {"form": form, "username": username}
+                request, "app/update_story.html", {"form": form, "username": username}
             )
 
     # GET request
@@ -159,13 +172,24 @@ def update_story(request, id):
 
 @login_required
 def delete_story(request, id):
+    user = request.user
+    username = user.username
+
     try:
         story = Story.objects.get(id=int(id))
     except Story.DoesNotExist:
         return render(
             request,
-            "app/tribe_does_not_exist.html",
-            {"username": request.user.username},
+            "app/story_does_not_exist.html",
+            {"username": username},
         )
+
+    if user != story.user:
+        return render(
+            request,
+            "app/permission_error.html",
+            {"action": "edit", "username": username},
+        )
+
     story.delete()
     return redirect(reverse("app:my_stories"))
