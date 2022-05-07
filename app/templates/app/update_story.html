@@ -1,0 +1,22 @@
+{% extends "app/layout.html" %}
+
+{% block title %}
+  Edit Story
+{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block user_links %}
+  <a class="nav-link" href="/login">Switch User</a>
+  <a class="nav-link" href="/logout">Logout</a>
+  <p class="nav-user">Welcome, {{ username }}</h4>
+{% endblock user_links %}
+
+{% block body %}
+<h1>Edit the story here:</h1>
+<form action="{% url 'app:update_story' story_id %} " method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button type="submit" class="btn btn-warning">Save</button>
+</form>
+{% endblock %}

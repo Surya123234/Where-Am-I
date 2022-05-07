@@ -125,14 +125,47 @@ def create_story(request):
 
 @login_required
 def update_story(request, id):
-    return HttpResponse(id)
+    try:
+        story = Story.objects.get(id=int(id))
+    except Story.DoesNotExist:
+        return render(request, "app/tribe_does_not_exist.html")
+
+    username = request.user.username
+
+    if request.method == "POST":
+        form = newStoryForm(request.POST)
+        if form.is_valid():
+            content = form.cleaned_data["content"]
+            story.content = content
+            story.save()
+
+            return redirect(reverse("app:my_stories"))
+        else:
+            form.fields["title"].widget.attrs["readonly"] = True
+            return render(
+                request, "app/update_story", {"form": form, "username": username}
+            )
+
+    # GET request
+    existing_story_info = {"title": story.title, "content": story.content}
+    form = newStoryForm(initial=existing_story_info)
+    form.fields["title"].widget.attrs["readonly"] = True
+    return render(
+        request,
+        "app/update_story.html",
+        {"form": form, "story_id": story.id, "username": username},
+    )
 
 
 @login_required
 def delete_story(request, id):
     try:
-        story = Story.objects.get(id=id)
+        story = Story.objects.get(id=int(id))
     except Story.DoesNotExist:
-        return render(request, "app/tribe_does_not_exist.html")
+        return render(
+            request,
+            "app/tribe_does_not_exist.html",
+            {"username": request.user.username},
+        )
     story.delete()
     return redirect(reverse("app:my_stories"))
