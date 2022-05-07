@@ -14,6 +14,12 @@
     {% for story in stories %}
       <h2>{{ story.title }}</h2>
       <p> {{ story.content }}</p>
+      <a href="/update_story/{{ story.id }}">Edit Story</a>
+      <a href="/delete_story/{{ story.id }}">Delete Story</a>
       <hr>
+    {% empty %}
+      <h1>You have created no stories. What are you waiting for? Create one
+         <a href="/create_story">Here!</a>
+      </h1>
     {% endfor %}
 {% endblock %}

@@ -121,3 +121,18 @@ def create_story(request):
     return render(
         request, "app/create_story.html", {"form": newStoryForm(), "username": username}
     )
+
+
+@login_required
+def update_story(request, id):
+    return HttpResponse(id)
+
+
+@login_required
+def delete_story(request, id):
+    try:
+        story = Story.objects.get(id=id)
+    except Story.DoesNotExist:
+        return render(request, "app/tribe_does_not_exist.html")
+    story.delete()
+    return redirect(reverse("app:my_stories"))
