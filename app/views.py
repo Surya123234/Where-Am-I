@@ -188,7 +188,7 @@ def delete_story(request, id):
         return render(
             request,
             "app/permission_error.html",
-            {"action": "edit", "username": username},
+            {"action": "delete", "username": username},
         )
 
     story.delete()
