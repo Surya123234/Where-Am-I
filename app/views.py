@@ -67,7 +67,7 @@ def view_result(request):
 
     full_name = req_params.get("full_name")
 
-    # full nameslugified in case this param came from view_closest_territory
+    # full name slugified in case this param came from view_closest_territory
     new_slug_full_name = slugify(full_name)
 
     # sometimes the slugified version is shorter than the full name
