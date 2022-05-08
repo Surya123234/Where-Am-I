@@ -22,43 +22,43 @@ async function renderMap() {
 
   map.on("load", () => {
     // Add a data source containing GeoJSON data.
-    map.addSource("maine", {
-      type: "geojson",
-      data: {
-        type: "Feature",
-        geometry: {
-          type: "Polygon",
-          // These coordinates outline Maine.
-          coordinates: [
-            [
-              [123.502807, -17.056784],
-              [123.579711, -17.135541],
-              [123.684082, -17.277218],
-              [123.777465, -17.345395],
-              [123.870849, -17.350638],
-              [124.118041, -17.392579],
-              [124.282836, -17.43451],
-              [124.425659, -17.439751],
-              [124.486083, -17.439751],
-              [124.508056, -17.282463],
-              [124.508056, -17.135541],
-              [124.502563, -17.041029],
-              [124.48059, -16.893915],
-              [124.469604, -16.841347],
-              [124.343261, -16.830832],
-              [124.194946, -16.830832],
-              [124.052124, -16.815057],
-              [123.95874, -16.815057],
-              [123.859863, -16.857119],
-              [123.766479, -16.920194],
-              [123.651123, -16.972741],
-              [123.579711, -16.988502],
-              [123.502807, -17.056784],
-            ],
-          ],
-        },
-      },
-    });
+    // map.addSource("maine", {
+    //   type: "geojson",
+    //   data: {
+    //     type: "Feature",
+    //     geometry: {
+    //       type: "Polygon",
+    //       // These coordinates outline Maine.
+    //       coordinates: [
+    //         [
+    //           [123.502807, -17.056784],
+    //           [123.579711, -17.135541],
+    //           [123.684082, -17.277218],
+    //           [123.777465, -17.345395],
+    //           [123.870849, -17.350638],
+    //           [124.118041, -17.392579],
+    //           [124.282836, -17.43451],
+    //           [124.425659, -17.439751],
+    //           [124.486083, -17.439751],
+    //           [124.508056, -17.282463],
+    //           [124.508056, -17.135541],
+    //           [124.502563, -17.041029],
+    //           [124.48059, -16.893915],
+    //           [124.469604, -16.841347],
+    //           [124.343261, -16.830832],
+    //           [124.194946, -16.830832],
+    //           [124.052124, -16.815057],
+    //           [123.95874, -16.815057],
+    //           [123.859863, -16.857119],
+    //           [123.766479, -16.920194],
+    //           [123.651123, -16.972741],
+    //           [123.579711, -16.988502],
+    //           [123.502807, -17.056784],
+    //         ],
+    //       ],
+    //     },
+    //   },
+    // });
 
     map.addSource("national-park", {
       type: "geojson",
@@ -79,29 +79,6 @@ async function renderMap() {
       },
     });
 
-    // Add a new layer to visualize the polygon.
-    map.addLayer({
-      id: "maine",
-      type: "fill",
-      source: "maine", // reference the data source
-      layout: {},
-      paint: {
-        "fill-color": "#0080ff", // blue color fill
-        "fill-opacity": 0.5,
-      },
-    });
-    // Add a black outline around the polygon.
-    map.addLayer({
-      id: "outline",
-      type: "line",
-      source: "maine",
-      layout: {},
-      paint: {
-        "line-color": "#000",
-        "line-width": 3,
-      },
-    });
-
     map.on("click", "national-park+unqiue", (e) => {
       const coordinates = e.features[0].geometry.coordinates.slice();
       const name = e.features.map((f) => {
@@ -119,29 +96,15 @@ async function renderMap() {
       new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(html).addTo(map);
     });
 
-    map.on("mouseenter", "national-park+unqiue", (e) => {
+    // Change the cursor back to a pointer
+    // when it enters the states layer.
+    map.on("mouseenter", "national-park+unqiue", () => {
       map.getCanvas().style.cursor = "pointer";
     });
 
-    // Change the cursor back to a pointer
+    // Change the cursor back to a grab
     // when it leaves the states layer.
-    map.on("mouseleave", "national-park+unqiue", (e) => {
-      map.getCanvas().style.cursor = "";
-    });
-
-    map.on("click", "maine", (e) => {
-      const description = e.features[0];
-
-      new mapboxgl.Popup().setLngLat(e.lngLat).setHTML("<a></a>").addTo(map);
-    });
-
-    map.on("mouseenter", "maine", () => {
-      map.getCanvas().style.cursor = "pointer";
-    });
-
-    // Change the cursor back to a pointer
-    // when it leaves the states layer.
-    map.on("mouseleave", "maine", () => {
+    map.on("mouseleave", "national-park+unqiue", () => {
       map.getCanvas().style.cursor = "";
     });
   });
