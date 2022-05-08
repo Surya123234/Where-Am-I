@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from urllib3 import HTTPResponse
 from .models import Story, Tribe
 from .forms import newStoryForm
 import math
@@ -63,16 +64,20 @@ def ajax_filter(request):
     return JsonResponse({"success": False})
 
 
-def view_result(request):
-    name = request.GET.get("name", None)
+def view_result(request, name):
     username = request.user.username
+
+    print(f"THE TRIBE IS NAMED: {name}")
+    print("REQUEST GET IS: ")
 
     # wikipedia stuff
     try:
         summary = wikipedia.summary(name)
         link = wikipedia.page(name).url
-    except:
-        pass
+    except Exception:
+        return HTTPResponse("The search didn't work, try again")
+
+    print("MADE IT HERE")  # didnt get here
 
     return render(
         request,

@@ -1,7 +1,7 @@
 renderMap();
 
 async function getData(
-  url = 'https://native-land.ca/wp-json/nativeland/v1/api/index.php?maps=territories'
+  url = "https://native-land.ca/wp-json/nativeland/v1/api/index.php?maps=territories"
 ) {
   let res = await fetch(url);
   let resData = await res.json();
@@ -12,22 +12,22 @@ async function renderMap() {
   let data = await getData();
 
   mapboxgl.accessToken =
-    'pk.eyJ1IjoiZ3VycHJlZXRzaW5naG11bHRhbmkiLCJhIjoiY2txZmpsOGlrMTYzcjJvbnp0ZmJoeW1pZyJ9.PiJO1qXXB67Jl6k8FIXy7A';
+    "pk.eyJ1IjoiZ3VycHJlZXRzaW5naG11bHRhbmkiLCJhIjoiY2txZmpsOGlrMTYzcjJvbnp0ZmJoeW1pZyJ9.PiJO1qXXB67Jl6k8FIXy7A";
   const map = new mapboxgl.Map({
-    container: 'map', // container ID
-    style: 'mapbox://styles/mapbox/light-v10', // style URL
+    container: "map", // container ID
+    style: "mapbox://styles/mapbox/light-v10", // style URL
     center: [-98.03878868233622, 60.05083719859644], // starting position
     zoom: 2, // starting zoom
   });
 
-  map.on('load', () => {
+  map.on("load", () => {
     // Add a data source containing GeoJSON data.
-    map.addSource('maine', {
-      type: 'geojson',
+    map.addSource("maine", {
+      type: "geojson",
       data: {
-        type: 'Feature',
+        type: "Feature",
         geometry: {
-          type: 'Polygon',
+          type: "Polygon",
           // These coordinates outline Maine.
           coordinates: [
             [
@@ -60,49 +60,49 @@ async function renderMap() {
       },
     });
 
-    map.addSource('national-park', {
-      type: 'geojson',
+    map.addSource("national-park", {
+      type: "geojson",
       data: {
-        type: 'FeatureCollection',
+        type: "FeatureCollection",
         features: data,
       },
     });
 
     map.addLayer({
-      id: 'national-park+unqiue',
-      type: 'fill',
-      source: 'national-park', // reference the data source
+      id: "national-park+unqiue",
+      type: "fill",
+      source: "national-park", // reference the data source
       layout: {},
       paint: {
-        'fill-color': ['get', 'color'], // blue color fill
-        'fill-opacity': 0.5,
+        "fill-color": ["get", "color"], // blue color fill
+        "fill-opacity": 0.5,
       },
     });
 
     // Add a new layer to visualize the polygon.
     map.addLayer({
-      id: 'maine',
-      type: 'fill',
-      source: 'maine', // reference the data source
+      id: "maine",
+      type: "fill",
+      source: "maine", // reference the data source
       layout: {},
       paint: {
-        'fill-color': '#0080ff', // blue color fill
-        'fill-opacity': 0.5,
+        "fill-color": "#0080ff", // blue color fill
+        "fill-opacity": 0.5,
       },
     });
     // Add a black outline around the polygon.
     map.addLayer({
-      id: 'outline',
-      type: 'line',
-      source: 'maine',
+      id: "outline",
+      type: "line",
+      source: "maine",
       layout: {},
       paint: {
-        'line-color': '#000',
-        'line-width': 3,
+        "line-color": "#000",
+        "line-width": 3,
       },
     });
 
-    map.on('click', 'national-park+unqiue', (e) => {
+    map.on("click", "national-park+unqiue", (e) => {
       const coordinates = e.features[0].geometry.coordinates.slice();
       const name = e.features.map((f) => {
         return f.properties.Name;
@@ -111,7 +111,7 @@ async function renderMap() {
       let html = ``;
 
       for (let n of name) {
-        html += `<p style='margin: 0;'><a href=http://127.0.0.1:8000/view_result/?name=${n}>${n}</a></p>`;
+        html += `<p style='margin: 0;'><a href=http://127.0.0.1:8000/view_result/${n}>${n}</a></p>`;
       }
 
       console.log(html);
@@ -119,30 +119,30 @@ async function renderMap() {
       new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(html).addTo(map);
     });
 
-    map.on('mouseenter', 'national-park+unqiue', (e) => {
-      map.getCanvas().style.cursor = 'pointer';
+    map.on("mouseenter", "national-park+unqiue", (e) => {
+      map.getCanvas().style.cursor = "pointer";
     });
 
     // Change the cursor back to a pointer
     // when it leaves the states layer.
-    map.on('mouseleave', 'national-park+unqiue', (e) => {
-      map.getCanvas().style.cursor = '';
+    map.on("mouseleave", "national-park+unqiue", (e) => {
+      map.getCanvas().style.cursor = "";
     });
 
-    map.on('click', 'maine', (e) => {
+    map.on("click", "maine", (e) => {
       const description = e.features[0];
 
-      new mapboxgl.Popup().setLngLat(e.lngLat).setHTML('<a></a>').addTo(map);
+      new mapboxgl.Popup().setLngLat(e.lngLat).setHTML("<a></a>").addTo(map);
     });
 
-    map.on('mouseenter', 'maine', () => {
-      map.getCanvas().style.cursor = 'pointer';
+    map.on("mouseenter", "maine", () => {
+      map.getCanvas().style.cursor = "pointer";
     });
 
     // Change the cursor back to a pointer
     // when it leaves the states layer.
-    map.on('mouseleave', 'maine', () => {
-      map.getCanvas().style.cursor = '';
+    map.on("mouseleave", "maine", () => {
+      map.getCanvas().style.cursor = "";
     });
   });
 }

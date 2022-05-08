@@ -13,21 +13,18 @@ function showPosition(position) {
   (lat = position.coords.latitude.toFixed(2)),
     (long = position.coords.longitude.toFixed(2));
   $.ajax({
-    type: 'GET',
-    url: '/ajax_filter',
+    type: "GET",
+    url: "/ajax_filter",
     data: {
       lat: lat,
       long: long,
     },
-    dataType: 'json',
+    dataType: "json",
     success: function (data) {
-      window.location.replace(
-        `/view_result?name=${data.name}`
-        // `/view_result?name=${data.name}&summary=${data.summary}&link=${data.link}`
-      );
+      window.location.replace(`/view_result/${data.name}`);
     },
     failure: function () {
-      alert('failure');
+      alert("failure");
     },
   });
 }
