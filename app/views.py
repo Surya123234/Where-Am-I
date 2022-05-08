@@ -1,15 +1,13 @@
-from re import L
-import re
 from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
-from django.http import JsonResponse
+from django.http import Http404, JsonResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from urllib3 import HTTPResponse
 from .models import Story, Tribe
 from .forms import newStoryForm
 import math
 import wikipedia
+from slugify import slugify
 
 # Create your views here.
 
@@ -57,32 +55,43 @@ def ajax_filter(request):
             {
                 "success": True,
                 "name": name,
-                # "url": reverse("app:view_result"),
             },
             safe=False,
         )
     return JsonResponse({"success": False})
 
 
-def view_result(request, name):
+def view_result(request):
     username = request.user.username
+    req_params = request.GET
 
-    print(f"THE TRIBE IS NAMED: {name}")
-    print("REQUEST GET IS: ")
+    full_name = req_params.get("full_name")
+
+    # full nameslugified in case this param came from view_closest_territory
+    new_slug_full_name = slugify(full_name)
+
+    # sometimes the slugified version is shorter than the full name
+    slug_name = req_params.get("slug_name")
 
     # wikipedia stuff
+    # get_wiki_info is a helper method (defined at the end of this file)
+    # A formatted string needs to be used to avoid existing Wikipedia API bugs
     try:
-        summary = wikipedia.summary(name)
-        link = wikipedia.page(name).url
-    except Exception:
-        return HTTPResponse("The search didn't work, try again")
-
-    print("MADE IT HERE")  # didnt get here
+        wiki_info = get_wiki_info(f"{slug_name}")
+        print("slug name used")
+    except wikipedia.exceptions.DisambiguationError:
+        print("full name used")
+        wiki_info = get_wiki_info(f"{new_slug_full_name}")
 
     return render(
         request,
         "app/view_result.html",
-        {"name": name, "summary": summary, "link": link, "username": username},
+        {
+            "name": full_name,
+            "summary": wiki_info["summary"],
+            "link": wiki_info["link"],
+            "username": username,
+        },
     )
 
 
@@ -198,3 +207,14 @@ def delete_story(request, id):
 
     story.delete()
     return redirect(reverse("app:my_stories"))
+
+
+### HELPER METHODS ###
+
+
+def get_wiki_info(name):
+    title = wikipedia.search(name)[0]
+    page = wikipedia.page(title, auto_suggest=False)
+    summary = page.summary
+    link = page.url
+    return {"summary": summary, "link": link}
