@@ -1,0 +1,27 @@
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  justify-content: center;
+  flex-direction: column;
+}
+.Title {
+  position: absolute;
+  top: 8%;
+  left: 10%;
+}
+
+.Tribe-Title {
+  height: 20%;
+  width: 80vw;
+  background-color: rgb(210, 231, 230);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+hr {
+  height: 5px;
+}
