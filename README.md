@@ -63,12 +63,12 @@ _Note: If you have `python2` installed instead, simply replace `pip3` with `pip`
 ### Update Story
 `GET /update_story/{id}/`: Allows users to edit and save the content of a story they previously created on a form
 
-`POST /update_story/{id}/`: Submits the edited story information, updates it in the DB, and redirects the user to view their stories
+`PATCH /update_story/{id}/`: Submits the edited story information, updates it in the DB, and redirects the user to view their stories
   - Path Variable:
     - `id`: The story's id
 
 ### Delete Story
-`GET /delete_story/{id}/`: Deletes a story a user previously created, and redirects them to view their stories 
+`DELETE /delete_story/{id}/`: Deletes a story a user previously created, and redirects them to view their stories 
   - Path Variable:
     - `id`: The story's id
 
