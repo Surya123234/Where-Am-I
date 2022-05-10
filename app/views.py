@@ -14,12 +14,12 @@ from slugify import slugify
 
 def homepage(request):
     username = request.user.username
-    return render(request, "app/Homepage.html", {"username": username})
+    return render(request, "app/homepage.html", {"username": username})
 
 
 def explore_tribes(request):
     username = request.user.username
-    return render(request, "app/exploreTribes.html", {"username": username})
+    return render(request, "app/explore_tribes.html", {"username": username})
 
 
 def view_closest_territory(request):
