@@ -5,9 +5,11 @@ Where Am I is an innovative full-stack app allowing users to learn about which *
 # How to run the project locally
 clone the repo using `git clone https://github.com/Surya123234/Where-Am-I.git` 
 
-open up the command line and `cd` into the project directory
-
 install the latest `python3` version if you haven't already
+
+run `pip3 install django` to install the latest `django` version if you haven't already 
+
+open up the command line and `cd` into the project directory
 
 run `pip3 install -r requirements.txt` to install all dependencies
 
