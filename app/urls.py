@@ -11,7 +11,11 @@ urlpatterns = [
         views.view_closest_territory,
         name="view_closest_territory",
     ),
-    path("ajax_filter/", views.ajax_filter, name="ajax_filter"),
+    path(
+        "find_closest_territory/",
+        views.find_closest_territory,
+        name="find_closest_territory",
+    ),
     path("view_result/", views.view_result, name="view_result"),
     path("view_stories/", views.view_stories, name="view_stories"),
     path("my_stories/", views.my_stories, name="my_stories"),

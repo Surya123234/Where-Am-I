@@ -14,7 +14,7 @@ function showPosition(position) {
     (long = position.coords.longitude.toFixed(2));
   $.ajax({
     type: "GET",
-    url: "/ajax_filter",
+    url: "/find_closest_territory",
     data: {
       lat: lat,
       long: long,

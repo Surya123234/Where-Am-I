@@ -27,7 +27,7 @@ def view_closest_territory(request):
     return render(request, "app/view_closest_territory.html", {"username": username})
 
 
-def ajax_filter(request):
+def find_closest_territory(request):
     if request.method == "GET":
         latUser = request.GET.get("lat", None)
         latUser = float(latUser)
