@@ -21,7 +21,7 @@ function showPosition(position) {
     },
     dataType: "json",
     success: function (data) {
-      window.location.replace(`/view_result?full_name=${data.name}`);
+      window.location.replace(`/tribe_summary?full_name=${data.name}`);
     },
     failure: function () {
       alert("failure");

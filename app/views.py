@@ -61,7 +61,7 @@ def find_closest_territory(request):
     return JsonResponse({"success": False})
 
 
-def view_result(request):
+def tribe_summary(request):
     username = request.user.username
     req_params = request.GET
 
@@ -85,7 +85,7 @@ def view_result(request):
 
     return render(
         request,
-        "app/view_result.html",
+        "app/tribe_summary.html",
         {
             "name": full_name,
             "summary": wiki_info["summary"],
