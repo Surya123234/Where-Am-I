@@ -29,28 +29,29 @@ def view_closest_territory(request):
 
 def find_closest_territory(request):
     if request.method == "GET":
-        latUser = request.GET.get("lat", None)
-        latUser = float(latUser)
-        lngUser = request.GET.get("long", None)
-        lngUser = float(lngUser)
-        distance = 1000000
-        name = ""
+        try:
+            user_lat = float(request.GET.get("lat", None))
+            user_long = float(request.GET.get("long", None))
+            distance = float("inf")
 
-        # database logic
-        for tribe in Tribe.objects.all():
-            latTribe = float(tribe.latitude)
-            lngTribe = float(tribe.longitude)
+            # find the tribe closest to the user using the tribe's centralized location coordinate (in order to speed up calculations and still maintain a high accuracy rate)
+            for tribe in Tribe.objects.all():
+                tribe_lat = float(tribe.latitude)
+                tribe_long = float(tribe.longitude)
 
-            # x2,y2 is tribe
-            # x1, y1,is User
-            tempDistance = math.sqrt(
-                (latTribe - latUser) ** 2 + (lngTribe - lngUser) ** 2
-            )
-            if tempDistance < distance:
-                distance = tempDistance
-                name = tribe.name
+                # distance equation
+                temp_distance = math.sqrt(
+                    (tribe_lat - user_lat) ** 2 + (tribe_long - user_long) ** 2
+                )
 
-        # return the TribeName
+                if temp_distance < distance:
+                    distance = temp_distance
+                    name = tribe.name
+        except Exception as error:
+            return JsonResponse({"success": False, "error": error})
+
+        # return the TribeName in JSON format
+        # user will be redirected in the front end
         return JsonResponse(
             {
                 "success": True,

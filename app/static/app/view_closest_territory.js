@@ -9,9 +9,9 @@ function getLocation() {
 }
 
 function showPosition(position) {
-  // sending coords to django
-  (lat = position.coords.latitude.toFixed(2)),
-    (long = position.coords.longitude.toFixed(2));
+  // sending coordinates to backend
+  lat = position.coords.latitude.toFixed(2);
+  long = position.coords.longitude.toFixed(2);
   $.ajax({
     type: "GET",
     url: "/find_closest_territory",
@@ -23,8 +23,8 @@ function showPosition(position) {
     success: function (data) {
       window.location.replace(`/tribe_summary?full_name=${data.name}`);
     },
-    failure: function () {
-      alert("failure");
+    failure: function (data) {
+      alert(`Failure, please try again! The error was: ${data.error}`);
     },
   });
 }
