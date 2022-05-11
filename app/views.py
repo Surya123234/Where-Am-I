@@ -7,9 +7,14 @@ from .models import Story, Tribe
 from .forms import newStoryForm
 import math
 import wikipedia
+import requests
+import json
 from slugify import slugify
 
 # Create your views here.
+
+# Wikipedia get request url that will be used to get the main image of a tribe/territory
+WIKI_REQUEST = "http://en.wikipedia.org/w/api.php?action=query&prop=pageimages&format=json&piprop=original&titles="
 
 
 def homepage(request):
@@ -91,6 +96,7 @@ def tribe_summary(request):
             "name": full_name,
             "summary": wiki_info["summary"],
             "link": wiki_info["link"],
+            "image": wiki_info["image"],
             "username": username,
         },
     )
@@ -218,4 +224,22 @@ def get_wiki_info(name):
     page = wikipedia.page(title, auto_suggest=False)
     summary = page.summary
     link = page.url
-    return {"summary": summary, "link": link}
+    image = get_wiki_main_image(title)
+
+    return {"summary": summary, "link": link, "image": image}
+
+
+def get_wiki_main_image(title):
+    # At times, some images for certain tribe/territory wiki pages are really irrelevant
+    # So, I tried to fetch the original source (main) image on the page if it exists
+    # If the main image doesn't exist, then I don't supply an image at all, and just output an "alt" word description on the HTML template of what the image should show
+    # This is because I would rather show no image to the user, than one that is irrelevant and misleading.
+    # Remember, context is key, especially a user who knows nothing about a topic shown to them.
+    response = requests.get(WIKI_REQUEST + title)
+    json_data = json.loads(response.text)
+    print(json_data)
+    try:
+        image = list(json_data["query"]["pages"].values())[0]["original"]["source"]
+    except:
+        image = None
+    return image
