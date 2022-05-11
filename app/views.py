@@ -88,6 +88,14 @@ def tribe_summary(request):
     except wikipedia.exceptions.DisambiguationError:
         print("full name used")
         wiki_info = get_wiki_info(f"{new_slug_full_name}")
+    except IndexError:
+        # This means Wikipedia does NOT have an artcile on the chosen tribe.
+        # In that case, the user is presented with an error screen that encourages them to research the tribe manually instead
+        # There isn't really anything that I can do about this, since this is a limitation of a third party API
+        # However, one potential fix can be to check if an article exists for each tribe on Wikipedia prior to loading it on the interactive map
+        # However, doing so will make the map loading speed extremely slow, since it will have to make hundreds of API calls just for the user to even see the loaded page
+        # As a result, I opted for the current solution instead.
+        return render(request, "app/error_tribe_summary.html")
 
     return render(
         request,
