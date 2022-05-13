@@ -17,9 +17,17 @@
 
 {% block body %}
     {% for story in stories %}
-      <h2>{{ story.title }}</h2>
-      <p> {{ story.content }}</p>
-      <p>Created by: {{ story.user }}</p>
+    <div class="story--container">
+      <div class="story--title">
+        <h2>{{ story.title }}</h2>
+      </div>
+      <div class="story--content">
+        <p> {{ story.content }}</p>
+      </div>
+      <div class="story--created-by">
+        <p><strong>Created by: {{ story.user }}</strong></p>
+      </div>
       <hr>
+    </div>
     {% endfor %}
 {% endblock %}
