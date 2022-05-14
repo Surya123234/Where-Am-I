@@ -16,41 +16,20 @@
 {% endblock user_links %}
 
 {% block body %}
-    <div data-home-page="../../static/app/wiki-page-files/Home.html" data-home-page-title="Home" class="u-body">
-        <header class="u-clearfix u-header u-header" id="sec-7b7d">
-            <div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
-                <h1 class="u-text u-text-default u-title u-text-1">{{name}}</h1>
-                <img style="height: 500px; width: 500px;" src="{{image}}" alt="Image of {{name}}">
-            </div>
-        </header>
-        <section class="u-clearfix u-section-1" id="carousel_c584">
-            <div class="u-clearfix u-expanded-width u-layout-wrap u-layout-wrap-1">
-                <div class="u-layout">
-                    <div class="u-layout-row">
-                        <div class="u-size-25">
-                            <div class="u-layout-row">
-                                <div class="u-align-center u-container-style u-image u-layout-cell u-size-60 u-image-1"
-                                    data-image-width="121" data-image-height="150">
-                                    <div class="u-container-layout u-container-layout-1"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="u-size-35">
-                            <div class="u-layout-col">
-                                <div class="u-container-style u-layout-cell u-size-60 u-layout-cell-2">
-                                    <div class="u-container-layout u-container-layout-2">
-                                        <h5 class="u-text u-text-1">Summary About Tribe / Territory</h5>
-                                        <p class="u-text u-text-2">{{summary}}</p>
-                                        <h4>For more information, visit 
-                                            <a href="{{link}}">HERE!</a>
-                                        </h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <div class="tribe--title">
+        <h1>{{ name }}</h1>
+    </div>
+    <div class="tribe--container">
+        <div class="tribe--image">
+            <img class="tribe--image" src="{{ image }}" alt="{{ name }}">
+        </div>
+        <div class="tribe--content">
+            <p>{{ summary }}</p>
+        </div>
+    </div>
+    <div class="tribe--links">
+        <h4>For more information, visit 
+            <a href="{{ link }}">HERE!</a>
+        </h4>
     </div>
 {% endblock %}

@@ -1,0 +1,30 @@
+.tribe--title {
+  padding: 20px 0;
+}
+
+.tribe--container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  max-width: 90vw;
+  max-height: 100vh;
+}
+
+.tribe--image {
+  width: 500px;
+  height: 500px;
+}
+
+.tribe--content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding-left: 20px;
+  justify-self: right;
+  font-size: large;
+}
+
+.tribe--links {
+  font-size: large;
+  margin-top: 10px;
+}
