@@ -1,7 +1,7 @@
-{% extends "api/layout.html" %}
+{% extends "frontend/layout.html" %}
 
 {% block title %}
-    Explore Tribes
+  Permission Not Granted
 {% endblock %}
 
 {% block user_links %}
@@ -16,7 +16,7 @@
 {% endblock user_links %}
 
 {% block body %}
-    <p class="Title display-3">Click a location, and select the tribe you want to learn about!</p>
-    <div id="map" class="map"></div>
-    <div></div>
+    <h1 style="padding-top: 30px;">
+        Sorry, you do not have permission to {{ action }} this story!
+    </h1>
 {% endblock %}

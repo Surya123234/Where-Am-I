@@ -1,7 +1,7 @@
-{% extends "api/layout.html" %}
+{% extends "frontend/layout.html" %}
 
 {% block title %}
-  Permission Not Granted
+  Tribe Does Not Exist
 {% endblock %}
 
 {% block user_links %}
@@ -16,7 +16,9 @@
 {% endblock user_links %}
 
 {% block body %}
-    <h1 style="padding-top: 30px;">
-        Sorry, you do not have permission to {{ action }} this story!
-    </h1>
+    <div class="story--title">
+      <h1 style="padding-top: 30px;">
+        The selected story does not exist! Please try another story.
+      </h1>
+    </div>
 {% endblock %}

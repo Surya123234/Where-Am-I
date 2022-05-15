@@ -1,7 +1,7 @@
-{% extends "api/layout.html" %}
+{% extends "frontend/layout.html" %}
 
 {% block title %}
-  Tribe Does Not Exist
+View Closest Territory
 {% endblock %}
 
 {% block user_links %}
@@ -16,9 +16,10 @@
 {% endblock user_links %}
 
 {% block body %}
-    <div class="story--title">
-      <h1 style="padding-top: 30px;">
-        The selected story does not exist! Please try another story.
-      </h1>
-    </div>
+<section class="btneffect-container"
+  <p class="description">Get Coordinates of Current Location</p>
+  <button class="btneffect" onclick="getLocation()"><span>Get coordinates</span></button>
+  <!-- button to enable geolocation api -->
+  <p id="demo"></p>
+</section>
 {% endblock %}

@@ -33,6 +33,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 INSTALLED_APPS = [
     "api",
+    "frontend",
     "register",
     "crispy_forms",
     "rest_framework",

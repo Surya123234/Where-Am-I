@@ -1,7 +1,7 @@
-{% extends "api/layout.html" %}
+{% extends "frontend/layout.html" %}
 
 {% block title %}
-View Closest Territory
+    Explore Tribes
 {% endblock %}
 
 {% block user_links %}
@@ -16,10 +16,7 @@ View Closest Territory
 {% endblock user_links %}
 
 {% block body %}
-<section class="btneffect-container"
-  <p class="description">Get Coordinates of Current Location</p>
-  <button class="btneffect" onclick="getLocation()"><span>Get coordinates</span></button>
-  <!-- button to enable geolocation api -->
-  <p id="demo"></p>
-</section>
+    <p class="Title display-3">Click a location, and select the tribe you want to learn about!</p>
+    <div id="map" class="map"></div>
+    <div></div>
 {% endblock %}

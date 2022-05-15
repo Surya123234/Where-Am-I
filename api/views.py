@@ -22,22 +22,32 @@ from api import serializers
 WIKI_REQUEST = "http://en.wikipedia.org/w/api.php?action=query&prop=pageimages&format=json&piprop=original&titles="
 
 
-@api_view(["GET"])
-def homepage(request):
-    username = request.user.username
-    return render(request, "api/Homepage.html", {"username": username})
+# @api_view(["GET"])
+# @login_required
+# def get_username(request):
+#     return JsonResponse(
+#         {
+#             "username": request.user.username,
+#         }
+#     )
 
 
-@api_view(["GET"])
-def explore_tribes(request):
-    username = request.user.username
-    return render(request, "api/explore_tribes.html", {"username": username})
+# @api_view(["GET"])
+# def homepage(request):
+#     username = request.user.username
+#     return render(request, "api/Homepage.html", {"username": username})
 
 
-@api_view(["GET"])
-def view_closest_territory(request):
-    username = request.user.username
-    return render(request, "api/view_closest_territory.html", {"username": username})
+# @api_view(["GET"])
+# def explore_tribes(request):
+#     username = request.user.username
+#     return render(request, "api/explore_tribes.html", {"username": username})
+
+
+# @api_view(["GET"])
+# def view_closest_territory(request):
+#     username = request.user.username
+#     return render(request, "api/view_closest_territory.html", {"username": username})
 
 
 @api_view(["GET"])
