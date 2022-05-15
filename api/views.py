@@ -1,8 +1,9 @@
-from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
-from django.http import Http404, JsonResponse
+from django.http import JsonResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+
+import api
 from .models import Story, Tribe
 from .forms import newStoryForm
 import math
@@ -10,6 +11,9 @@ import wikipedia
 import requests
 import json
 from slugify import slugify
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .serializers import TribeSerializer, StorySerializer
 
 # Create your views here.
 
@@ -17,21 +21,25 @@ from slugify import slugify
 WIKI_REQUEST = "http://en.wikipedia.org/w/api.php?action=query&prop=pageimages&format=json&piprop=original&titles="
 
 
+@api_view(["GET"])
 def homepage(request):
     username = request.user.username
     return render(request, "api/Homepage.html", {"username": username})
 
 
+@api_view(["GET"])
 def explore_tribes(request):
     username = request.user.username
     return render(request, "api/explore_tribes.html", {"username": username})
 
 
+@api_view(["GET"])
 def view_closest_territory(request):
     username = request.user.username
     return render(request, "api/view_closest_territory.html", {"username": username})
 
 
+@api_view(["GET"])
 def find_closest_territory(request):
     if request.method == "GET":
         try:
@@ -67,6 +75,7 @@ def find_closest_territory(request):
     return JsonResponse({"success": False})
 
 
+@api_view(["GET"])
 def tribe_summary(request):
     username = request.user.username
     req_params = request.GET
@@ -110,26 +119,34 @@ def tribe_summary(request):
     )
 
 
+@api_view(["GET"])
 def view_stories(request):
     username = request.user.username
     stories = Story.objects.all()
+    serializer = StorySerializer(stories, many=True)
     return render(
         request,
         "api/view_stories.html",
         {"stories": stories, "username": username},
     )
+    # return Response(serializer.data)
 
 
+@api_view(["GET"])
 @login_required
 def my_stories(request):
+    username = request.user.username
     stories = Story.objects.filter(user=request.user)
+    serializer = StorySerializer(stories, many=True)
     return render(
         request,
         "api/my_stories.html",
-        {"stories": stories, "username": request.user.username},
+        {"stories": serializer.data, "username": username},
     )
+    # return Response(serializer.data)
 
 
+@api_view(["GET", "POST"])
 @login_required
 def create_story(request):
     username = request.user.username
@@ -153,6 +170,7 @@ def create_story(request):
     )
 
 
+@api_view(["GET", "POST"])
 @login_required
 def update_story(request, id):
     user = request.user
@@ -199,6 +217,7 @@ def update_story(request, id):
     )
 
 
+@api_view(["GET"])
 @login_required
 def delete_story(request, id):
     user = request.user
