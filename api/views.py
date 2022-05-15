@@ -14,6 +14,7 @@ from slugify import slugify
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import TribeSerializer, StorySerializer
+from api import serializers
 
 # Create your views here.
 
@@ -124,12 +125,12 @@ def view_stories(request):
     username = request.user.username
     stories = Story.objects.all()
     serializer = StorySerializer(stories, many=True)
-    return render(
-        request,
-        "api/view_stories.html",
-        {"stories": stories, "username": username},
-    )
-    # return Response(serializer.data)
+    # return render(
+    #     request,
+    #     "api/view_stories.html",
+    #     {"stories": stories, "username": username},
+    # )
+    return Response(serializer.data)
 
 
 @api_view(["GET"])
@@ -149,21 +150,31 @@ def my_stories(request):
 @api_view(["GET", "POST"])
 @login_required
 def create_story(request):
-    username = request.user.username
+    user = request.user
+    username = user.username
 
     if request.method == "POST":
-        form = newStoryForm(request.POST)
-        if form.is_valid():
-            title = form.cleaned_data["title"]
-            content = form.cleaned_data["content"]
-            Story.objects.create(user=request.user, title=title, content=content)
+        serializer = StorySerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user=user)
+            return JsonResponse("IT WORKED", safe=False)
 
-            return redirect(reverse("api:view_stories"))
+        # if request.method == "POST":
+        #     form = newStoryForm(request.POST)
+        #     if form.is_valid():
+        #         title = form.cleaned_data["title"]
+        #         content = form.cleaned_data["content"]
+        #         Story.objects.create(user=request.user, title=title, content=content)
+
+        #         return redirect(reverse("api:view_stories"))
 
         else:
-            return render(
-                request, "api/create_story.html", {"form": form, "username": username}
-            )
+            # return render(
+            #     request,
+            #     "api/create_story.html",
+            #     {"form": serializer.data, "username": username},
+            # )
+            return JsonResponse(serializer.errors, safe=False)
 
     return render(
         request, "api/create_story.html", {"form": newStoryForm(), "username": username}

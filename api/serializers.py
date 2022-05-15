@@ -12,4 +12,4 @@ class TribeSerializer(serializers.ModelSerializer):
 class StorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Story
-        fields = "__all__"
+        fields = ("id", "title", "content")
