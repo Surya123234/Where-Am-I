@@ -62,18 +62,17 @@ def find_closest_territory(request):
                     distance = temp_distance
                     name = tribe.name
         except Exception as error:
-            return JsonResponse({"success": False, "error": error})
+            return Response({"success": False, "error": error})
 
         # return the TribeName in JSON format
         # user will be redirected in the front end
-        return JsonResponse(
+        return Response(
             {
                 "success": True,
                 "name": name,
-            },
-            safe=False,
+            }
         )
-    return JsonResponse({"success": False})
+    return Response({"success": False})
 
 
 @api_view(["GET"])
@@ -107,17 +106,16 @@ def tribe_summary(request):
         # As a result, I opted for the current solution instead.
         return render(request, "api/error_tribe_summary.html")
 
-    return render(
-        request,
-        "api/tribe_summary.html",
-        {
-            "name": full_name,
-            "summary": wiki_info["summary"],
-            "link": wiki_info["link"],
-            "image": wiki_info["image"],
-            "username": username,
-        },
-    )
+    response = {
+        "name": full_name,
+        "summary": wiki_info["summary"],
+        "link": wiki_info["link"],
+        "image": wiki_info["image"],
+        "username": username,
+    }
+
+    # return render(request, "api/tribe_summary.html", response)
+    return Response(response)
 
 
 @api_view(["GET"])
@@ -220,14 +218,21 @@ def update_story(request, id):
         )
 
     if request.method == "POST":
-        form = newStoryForm(request.POST)
-        if form.is_valid():
-            content = form.cleaned_data["content"]
-            story.content = content
-            story.save()
+        serializer = StorySerializer(instance=story, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            data = serializer.data
+            response = {
+                "id": data["id"],
+                "created_by": data["created_by"]["username"],
+                "title": data["title"],
+                "content": data["content"],
+            }
+            return Response(response)
 
-            return redirect(reverse("api:my_stories"))
+            # return redirect(reverse("api:my_stories"))
         else:
+            form = newStoryForm()
             form.fields["title"].widget.attrs["readonly"] = True
             return render(
                 request, "api/update_story.html", {"form": form, "username": username}

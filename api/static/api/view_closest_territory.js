@@ -21,7 +21,7 @@ function showPosition(position) {
     },
     dataType: "json",
     success: function (data) {
-      window.location.replace(`/tribe_summary?full_name=${data.name}`);
+      window.location.replace(`/api/tribe_summary?full_name=${data.name}`);
     },
     failure: function (data) {
       alert(`Failure, please try again! The error was: ${data.error}`);
