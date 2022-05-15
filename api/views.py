@@ -125,19 +125,29 @@ def view_stories(request):
     username = request.user.username
     stories = Story.objects.all()
     serializer = StorySerializer(stories, many=True)
+    data = serializer.data
     # return render(
     #     request,
     #     "api/view_stories.html",
-    #     {"stories": stories, "username": username},
+    #     {"stories": serializer.data, "username": username},
     # )
-    return Response(serializer.data)
+    response = []
+    for obj in data:
+        el = {
+            "id": obj["id"],
+            "created_by": obj["created_by"]["username"],
+            "title": obj["title"],
+            "content": obj["content"],
+        }
+        response.append(el)
+    return Response(response)
 
 
 @api_view(["GET"])
 @login_required
 def my_stories(request):
     username = request.user.username
-    stories = Story.objects.filter(user=request.user)
+    stories = Story.objects.filter(created_by=request.user)
     serializer = StorySerializer(stories, many=True)
     return render(
         request,
@@ -156,8 +166,8 @@ def create_story(request):
     if request.method == "POST":
         serializer = StorySerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(user=user)
-            return JsonResponse("IT WORKED", safe=False)
+            story = serializer.save(created_by=user)
+            return Response(story)
 
         # if request.method == "POST":
         #     form = newStoryForm(request.POST)
@@ -196,7 +206,7 @@ def update_story(request, id):
             {"username": username},
         )
 
-    if user != story.user:
+    if user != story.created_by:
         return render(
             request,
             "api/permission_error.html",
@@ -243,7 +253,7 @@ def delete_story(request, id):
             {"username": username},
         )
 
-    if user != story.user:
+    if user != story.created_by:
         return render(
             request,
             "api/permission_error.html",

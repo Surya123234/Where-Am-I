@@ -12,7 +12,7 @@ class Tribe(models.Model):
 
 
 class Story(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=300)
     content = models.TextField()
 
