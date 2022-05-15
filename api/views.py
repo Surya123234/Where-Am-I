@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
@@ -167,7 +167,13 @@ def create_story(request):
         serializer = StorySerializer(data=request.data)
         if serializer.is_valid():
             story = serializer.save(created_by=user)
-            return Response(story)
+            response = {
+                "id": story.id,
+                "created_by": story.created_by.username,
+                "title": story.title,
+                "content": story.content,
+            }
+            return Response(response)
 
         # if request.method == "POST":
         #     form = newStoryForm(request.POST)
