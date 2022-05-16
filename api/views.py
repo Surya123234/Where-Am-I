@@ -18,37 +18,6 @@ from api import serializers
 
 # Create your views here.
 
-# Wikipedia get request url that will be used to get the main image of a tribe/territory
-WIKI_REQUEST = "http://en.wikipedia.org/w/api.php?action=query&prop=pageimages&format=json&piprop=original&titles="
-
-
-# @api_view(["GET"])
-# @login_required
-# def get_username(request):
-#     return JsonResponse(
-#         {
-#             "username": request.user.username,
-#         }
-#     )
-
-
-# @api_view(["GET"])
-# def homepage(request):
-#     username = request.user.username
-#     return render(request, "api/Homepage.html", {"username": username})
-
-
-# @api_view(["GET"])
-# def explore_tribes(request):
-#     username = request.user.username
-#     return render(request, "api/explore_tribes.html", {"username": username})
-
-
-# @api_view(["GET"])
-# def view_closest_territory(request):
-#     username = request.user.username
-#     return render(request, "api/view_closest_territory.html", {"username": username})
-
 
 @api_view(["GET"])
 def find_closest_territory(request):
@@ -165,7 +134,7 @@ def my_stories(request):
     # return Response(serializer.data)
 
 
-@api_view(["GET", "POST"])
+@api_view(["POST"])
 @login_required
 def create_story(request):
     user = request.user
@@ -205,7 +174,7 @@ def create_story(request):
     )
 
 
-@api_view(["GET", "POST"])
+@api_view(["POST"])
 @login_required
 def update_story(request, id):
     user = request.user
@@ -304,6 +273,10 @@ def get_wiki_main_image(title):
     # If the main image doesn't exist, then I don't supply an image at all, and just output an "alt" word description on the HTML template of what the image should show
     # This is because I would rather show no image to the user, than one that is irrelevant and misleading.
     # Remember, context is key, especially a user who knows nothing about a topic shown to them.
+
+    # Wikipedia get request url that will be used to get the main image of a tribe/territory
+    WIKI_REQUEST = "http://en.wikipedia.org/w/api.php?action=query&prop=pageimages&format=json&piprop=original&titles="
+
     response = requests.get(WIKI_REQUEST + title)
     json_data = json.loads(response.text)
     print(json_data)

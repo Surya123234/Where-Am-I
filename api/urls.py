@@ -4,13 +4,6 @@ from . import views
 app_name = "api"
 
 urlpatterns = [
-    # path("home/", views.homepage, name="homepage"),
-    # path("explore_tribes/", views.explore_tribes, name="explore_tribes"),
-    # path(
-    #     "view_closest_territory/",
-    #     views.view_closest_territory,
-    #     name="view_closest_territory",
-    # ),
     path(
         "find_closest_territory/",
         views.find_closest_territory,
