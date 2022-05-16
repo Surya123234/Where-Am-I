@@ -138,40 +138,19 @@ def my_stories(request):
 @login_required
 def create_story(request):
     user = request.user
-    username = user.username
+    serializer = StorySerializer(data=request.data)
 
-    if request.method == "POST":
-        serializer = StorySerializer(data=request.data)
-        if serializer.is_valid():
-            story = serializer.save(created_by=user)
-            response = {
-                "id": story.id,
-                "created_by": story.created_by.username,
-                "title": story.title,
-                "content": story.content,
-            }
-            return Response(response)
-
-        # if request.method == "POST":
-        #     form = newStoryForm(request.POST)
-        #     if form.is_valid():
-        #         title = form.cleaned_data["title"]
-        #         content = form.cleaned_data["content"]
-        #         Story.objects.create(user=request.user, title=title, content=content)
-
-        #         return redirect(reverse("api:view_stories"))
-
-        else:
-            # return render(
-            #     request,
-            #     "api/create_story.html",
-            #     {"form": serializer.data, "username": username},
-            # )
-            return JsonResponse(serializer.errors, safe=False)
-
-    return render(
-        request, "api/create_story.html", {"form": newStoryForm(), "username": username}
-    )
+    if serializer.is_valid():
+        story = serializer.save(created_by=user)
+        response = {
+            "id": story.id,
+            "created_by": story.created_by.username,
+            "title": story.title,
+            "content": story.content,
+        }
+        return Response(response)
+    else:
+        return JsonResponse(serializer.errors, safe=False)
 
 
 @api_view(["POST"])
@@ -247,20 +226,7 @@ def delete_story(request, id):
         success = False
         details = "The story does not exist! Please refresh the page."
     except Exception:
-        # return render(
-        #     request,
-        #     "api/story_does_not_exist.html",
-        #     {"username": username},
-        # )
-
-        # return render(
-        #     request,
-        #     "api/permission_error.html",
-        #     {"action": "delete", "username": username},
-        # )
-
         return Response({"success": success, "details": details})
-    # return redirect(reverse("api:my_stories"))
 
 
 ### HELPER METHODS ###
