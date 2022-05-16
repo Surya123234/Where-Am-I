@@ -1,4 +1,37 @@
-viewMyStories();
+document.addEventListener("DOMContentLoaded", () => {
+  viewMyStories();
+  var intervalId = window.setInterval(deleteStory, 50);
+  function deleteStory() {
+    var del = document.getElementsByClassName("delete-button");
+    for (var i = 0; i < del.length; i++) {
+      console.log(del[i]);
+      del[i].addEventListener("click", function (e) {
+        storyId = this.dataset.id;
+        var url = `http://127.0.0.1:8000/api/v1/delete_story/${storyId}`;
+        var csrftoken = getCookie("csrftoken");
+        fetch(url, {
+          method: "DELETE",
+          headers: {
+            "Content-type": "application/json",
+            "X-CSRFToken": csrftoken,
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("Data:", data);
+            if (data["success"]) {
+              window.location.href = "/my_stories/";
+              alert(data["details"]);
+            } else {
+              alert(data["details"]);
+            }
+          });
+      });
+    }
+    clearInterval(intervalId);
+  }
+  console.log("everything outputted");
+});
 
 function viewMyStories() {
   var url = "http://127.0.0.1:8000/api/v1/my_stories/";
@@ -32,8 +65,8 @@ function outputMyStories(stories) {
             <p> ${stories[story].content}</p>
           </div>
           <div class="story--links">
-            <a  class="btn btn-warning" href="/update_story/${stories[story].id}">Edit Story</a>
-            <a class="btn btn-danger" href="/delete_story/${stories[story].id}">Delete Story</a>
+            <a class="btn btn-warning edit-button" >Edit Story</a>
+            <a class="btn btn-danger delete-button" data-id=${stories[story].id}>Delete Story</a>
           </div>
           <hr>
         </div>
@@ -42,4 +75,20 @@ function outputMyStories(stories) {
     }
     wrapper.innerHTML = items;
   }
+}
+// href="/update_story/${stories[story].id}"
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== "") {
+    const cookies = document.cookie.split(";");
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      // Does this cookie string begin with the name we want?
+      if (cookie.substring(0, name.length + 1) === name + "=") {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
 }

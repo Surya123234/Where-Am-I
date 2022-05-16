@@ -12,8 +12,6 @@ function viewAllStories() {
 
 function outputAllStories(stories) {
   var wrapper = document.getElementById("all-stories-wrapper");
-  console.log("Stories:", stories);
-
   var items = ``;
   if (stories === null) {
     items = `

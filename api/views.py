@@ -1,3 +1,5 @@
+from distutils.log import error
+from subprocess import SubprocessError
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.urls import reverse
@@ -226,30 +228,39 @@ def update_story(request, id):
     )
 
 
-@api_view(["GET"])
+@api_view(["DELETE"])
 @login_required
 def delete_story(request, id):
     user = request.user
-    username = user.username
+    details = ""
+    success = True
 
     try:
         story = Story.objects.get(id=int(id))
+        if user != story.created_by:
+            success = False
+            details = "You do not have permission to delete this story!"
+            raise Exception
+        story.delete()
+        return Response({"success": success, "details": "Successfully deleted story!"})
     except Story.DoesNotExist:
-        return render(
-            request,
-            "api/story_does_not_exist.html",
-            {"username": username},
-        )
+        success = False
+        details = "The story does not exist! Please refresh the page."
+    except Exception:
+        # return render(
+        #     request,
+        #     "api/story_does_not_exist.html",
+        #     {"username": username},
+        # )
 
-    if user != story.created_by:
-        return render(
-            request,
-            "api/permission_error.html",
-            {"action": "delete", "username": username},
-        )
+        # return render(
+        #     request,
+        #     "api/permission_error.html",
+        #     {"action": "delete", "username": username},
+        # )
 
-    story.delete()
-    return redirect(reverse("api:my_stories"))
+        return Response({"success": success, "details": details})
+    # return redirect(reverse("api:my_stories"))
 
 
 ### HELPER METHODS ###
