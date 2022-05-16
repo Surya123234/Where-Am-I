@@ -1,26 +1,31 @@
-viewStories();
+viewAllStories();
 
-function viewStories() {
+function viewAllStories() {
   var url = "http://127.0.0.1:8000/api/v1/view_stories/";
   fetch(url)
     .then((response) => response.json())
     .then((data) => {
       console.log("Data:", data);
-      outputStories(data);
+      outputAllStories(data);
     });
 }
 
-function outputStories(stories) {
-  var wrapper = document.getElementById("item-wrapper");
+function outputAllStories(stories) {
+  var wrapper = document.getElementById("all-stories-wrapper");
+  console.log("Stories:", stories);
+
   var items = ``;
   if (stories === null) {
     items = `
-        <h1>No stories have been created. What are you waiting for? Be the first to create one
-            <a href="/create_story">Here!</a>
-        </h1>
+        <div class="story--title">
+            <h1>No stories have been created. What are you waiting for? Be the first to create one
+                <a href="/create_story">Here!</a>
+            </h1>
+        </div>
       `;
   } else {
     for (var story in stories) {
+      console.log("Story:", stories[story]);
       var item = `
         <div class="story--container">
           <div class="story--title">

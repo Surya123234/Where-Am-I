@@ -99,15 +99,9 @@ def tribe_summary(request):
 
 @api_view(["GET"])
 def view_stories(request):
-    username = request.user.username
     stories = Story.objects.all()
     serializer = StorySerializer(stories, many=True)
     data = serializer.data
-    # return render(
-    #     request,
-    #     "api/view_stories.html",
-    #     {"stories": serializer.data, "username": username},
-    # )
     response = []
     for obj in data:
         el = {
@@ -123,15 +117,19 @@ def view_stories(request):
 @api_view(["GET"])
 @login_required
 def my_stories(request):
-    username = request.user.username
-    stories = Story.objects.filter(created_by=request.user)
+    user = request.user
+    stories = Story.objects.filter(created_by=user)
     serializer = StorySerializer(stories, many=True)
-    return render(
-        request,
-        "api/my_stories.html",
-        {"stories": serializer.data, "username": username},
-    )
-    # return Response(serializer.data)
+    data = serializer.data
+    response = []
+    for obj in data:
+        el = {
+            "id": obj["id"],
+            "title": obj["title"],
+            "content": obj["content"],
+        }
+        response.append(el)
+    return Response(response)
 
 
 @api_view(["POST"])

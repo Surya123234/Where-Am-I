@@ -40,11 +40,15 @@ def create_story(request):
     return render(request, "frontend/create_story.html", {"username": username})
 
 
-def update_story(request):
+def update_story(request, id):
     username = request.user.username
-    return render(request, "frontend/update_story.html", {"username": username})
+    return render(
+        request, "frontend/update_story.html", {"username": username, "id": id}
+    )
 
 
-def delete_story(request):
+def delete_story(request, id):
     username = request.user.username
-    return render(request, "frontend/delete_story.html", {"username": username})
+    return render(
+        request, "frontend/delete_story.html", {"username": username, "id": id}
+    )

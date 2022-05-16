@@ -11,25 +11,6 @@
 {% endblock user_links %}
 
 {% block body %}
-    {% for story in stories %}
-    <div class="story--container">
-      <div class="story--title">
-        <h2>{{ story.title }}</h2>
-      </div>
-      <div class="story--content">
-        <p>{{ story.content }}</p>
-      </div>
-      <div class="story--links">
-        <a  class="btn btn-warning" href="/update_story/{{ story.id }}">Edit Story</a>
-        <a class="btn btn-danger" href="/delete_story/{{ story.id }}">Delete Story</a>
-      </div>
-      <hr>
+    <div id="my-stories-wrapper">
     </div>
-    {% empty %}
-    <div class="story--title">
-      <h1>You have created no stories. What are you waiting for? Create one
-        <a href="/create_story">Here!</a>
-      </h1>
-    </div>
-    {% endfor %}
 {% endblock %}
