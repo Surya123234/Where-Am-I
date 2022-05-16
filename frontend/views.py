@@ -1,5 +1,7 @@
 from django.shortcuts import render
 
+from api.forms import newStoryForm
+
 # Create your views here.
 
 
@@ -37,7 +39,10 @@ def my_stories(request):
 
 def create_story(request):
     username = request.user.username
-    return render(request, "frontend/create_story.html", {"username": username})
+    form = newStoryForm()
+    return render(
+        request, "frontend/create_story.html", {"username": username, "form": form}
+    )
 
 
 def update_story(request, id):

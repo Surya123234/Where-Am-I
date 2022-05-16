@@ -18,11 +18,11 @@
       <h1>Create a New Story Here</h1>
     </div>
     <div class="story--content">
-      <form action="{% url 'frontend:create_story' %} " method="post">
+      <form id="create-story">
         {% csrf_token %}
         {{ form|crispy }}
         <div class="story--links">
-          <button type="submit" class="btn btn-success">Create Story</button>
+          <button type="submit" class="btn btn-success" id="story-create-submit">Create Story</button>
         </div>
       </form>
     </div>

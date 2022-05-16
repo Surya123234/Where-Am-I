@@ -99,7 +99,7 @@ def tribe_summary(request):
 
 @api_view(["GET"])
 def view_stories(request):
-    stories = Story.objects.all()
+    stories = Story.objects.all().order_by("-id")
     serializer = StorySerializer(stories, many=True)
     data = serializer.data
     response = []
@@ -118,7 +118,7 @@ def view_stories(request):
 @login_required
 def my_stories(request):
     user = request.user
-    stories = Story.objects.filter(created_by=user)
+    stories = Story.objects.filter(created_by=user).order_by("-id")
     serializer = StorySerializer(stories, many=True)
     data = serializer.data
     response = []
