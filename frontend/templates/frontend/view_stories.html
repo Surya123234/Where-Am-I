@@ -16,18 +16,6 @@
 {% endblock user_links %}
 
 {% block body %}
-    {% for story in stories %}
-    <div class="story--container">
-      <div class="story--title">
-        <h2>{{ story.title }}</h2>
-      </div>
-      <div class="story--content">
-        <p> {{ story.content }}</p>
-      </div>
-      <div class="story--created-by">
-        <p><strong>Created by: {{ story.created_by }}</strong></p>
-      </div>
-      <hr>
-    </div>
-    {% endfor %}
+  <div id="item-wrapper">
+  </div>
 {% endblock %}
