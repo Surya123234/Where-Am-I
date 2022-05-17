@@ -1,4 +1,5 @@
 from distutils.log import error
+from functools import partial
 from subprocess import SubprocessError
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
@@ -153,13 +154,15 @@ def create_story(request):
         return JsonResponse(serializer.errors, safe=False)
 
 
-@api_view(["POST"])
+@api_view(["PATCH"])
 @login_required
-def update_story(request, id):
+def update_story(request):
     user = request.user
     username = user.username
 
     try:
+        id = request.data["id"]
+        print(id)
         story = Story.objects.get(id=int(id))
     except Story.DoesNotExist:
         return render(
@@ -167,6 +170,8 @@ def update_story(request, id):
             "api/story_does_not_exist.html",
             {"username": username},
         )
+    # except Exception as e:
+    #     return Response({"error": e})
 
     if user != story.created_by:
         return render(
@@ -175,36 +180,36 @@ def update_story(request, id):
             {"action": "edit", "username": username},
         )
 
-    if request.method == "POST":
-        serializer = StorySerializer(instance=story, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            data = serializer.data
-            response = {
-                "id": data["id"],
-                "created_by": data["created_by"]["username"],
-                "title": data["title"],
-                "content": data["content"],
-            }
-            return Response(response)
+    serializer = StorySerializer(instance=story, data=request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        data = serializer.data
+        response = {
+            "id": data["id"],
+            "created_by": data["created_by"]["username"],
+            "title": data["title"],
+            "content": data["content"],
+        }
+        return Response(response)
 
-            # return redirect(reverse("api:my_stories"))
-        else:
-            form = newStoryForm()
-            form.fields["title"].widget.attrs["readonly"] = True
-            return render(
-                request, "api/update_story.html", {"form": form, "username": username}
-            )
+        # return redirect(reverse("api:my_stories"))
+    else:
+        # form = newStoryForm()
+        # form.fields["title"].widget.attrs["readonly"] = True
+        # return render(
+        #     request, "api/update_story.html", {"form": form, "username": username}
+        # )
+        return Response({"error": "didnt work!"})
 
-    # GET request
-    existing_story_info = {"title": story.title, "content": story.content}
-    form = newStoryForm(initial=existing_story_info)
-    form.fields["title"].widget.attrs["readonly"] = True
-    return render(
-        request,
-        "api/update_story.html",
-        {"form": form, "story_id": story.id, "username": username},
-    )
+    # # GET request
+    # existing_story_info = {"title": story.title, "content": story.content}
+    # form = newStoryForm(initial=existing_story_info)
+    # form.fields["title"].widget.attrs["readonly"] = True
+    # return render(
+    #     request,
+    #     "api/update_story.html",
+    #     {"form": form, "story_id": story.id, "username": username},
+    # )
 
 
 @api_view(["DELETE"])
