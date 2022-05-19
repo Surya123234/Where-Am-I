@@ -35,63 +35,77 @@ document.addEventListener("DOMContentLoaded", () => {
     var edit = document.getElementsByClassName("edit-button");
 
     for (var i = 0; i < edit.length; i++) {
-      console.log(edit[i]);
+      console.log("Button index:", edit[i]);
+
+      // AFTER THIS
+
       edit[i].addEventListener("click", function (e) {
         var storyId = this.dataset.id;
-        contentField = document.getElementById(storyId);
-        const storyContent = contentField.innerHTML;
+        var contentField = document.getElementById(storyId);
+        var storyContent =
+          contentField.nodeName == "P"
+            ? contentField.innerHTML
+            : contentField.value;
+
         if (this.innerHTML === "Save") {
+          console.log("content Field before object assign:", contentField);
+          // var storyContent = contentField.innerHTML;
+
           // here, check if new innerHtml.trim() is the same as prev storyContent... if it is, no need to call API to save, just return; Else, call api to update
-          if (contentField.innerHTML.trim() !== storyContent) {
-            // DOESN'T WORK???
-            console.log("ORIGINAL:", contentField.innerHTML.trim());
-            console.log("CHANGED:", storyContent);
-            csrftoken = getCookie("csrftoken");
-            var url = "http://127.0.0.1:8000/api/v1/update_story/";
-            fetch(url, {
-              method: "PATCH",
-              headers: {
-                "Content-type": "application/json",
-                "X-CSRFToken": csrftoken,
-              },
-              body: JSON.stringify({
-                id: storyId,
-                content: contentField.innerHTML.trim(),
-              }),
-            })
-              .then((response) => response.json())
-              .then((data) => {
-                console.log("PATCH data:", data);
-                //window.location.reload();
-              });
-          }
+          // if (storyContent !== storyContent) {
+          // DOESN'T WORK???
+          console.log("CHANGED:", storyContent);
+
+          csrftoken = getCookie("csrftoken");
+          var url = "http://127.0.0.1:8000/api/v1/update_story/";
+          fetch(url, {
+            method: "PATCH",
+            headers: {
+              "Content-type": "application/json",
+              "X-CSRFToken": csrftoken,
+            },
+            body: JSON.stringify({
+              id: storyId,
+              content: storyContent,
+            }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              console.log("PATCH data:", data);
+              window.location.reload();
+            });
+          // } else {
+          //   alert("they are the same bruh?");
+          // }
 
           this.innerHTML = "Edit Story";
-          const textareaContentField = Object.assign(
+          const paragraphContentField = Object.assign(
             document.createElement("p"),
             {
               id: storyId,
               innerHTML: storyContent,
             }
           );
-          contentField.replaceWith(textareaContentField);
+          contentField.replaceWith(paragraphContentField);
         } else {
           // innerHTML === "Edit Story"
+          console.log("content Field before object assign:", contentField);
           this.innerHTML = "Save";
-          const paragraphContentField = Object.assign(
+          //storyContent = contentField.innerHTML;
+          const textareaContentField = Object.assign(
             document.createElement("textarea"),
             {
               id: storyId,
+              value: storyContent,
               innerHTML: storyContent,
               readOnly: false,
             }
           );
-          contentField.replaceWith(paragraphContentField);
+          contentField.replaceWith(textareaContentField);
         }
         //   <div class="story--content">
         //   <textarea id=${stories[story].id} readonly> ${stories[story].content}</textarea>
         // </div>
-        console.log("content Field:", contentField);
       });
     }
     clearInterval(editIntervalId);
