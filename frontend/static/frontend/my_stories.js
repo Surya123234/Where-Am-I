@@ -1,7 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
   viewMyStories();
+
   var deleteIntervalId = window.setInterval(deleteStory, 50);
   var editIntervalId = window.setInterval(editStory, 50);
+
   function deleteStory() {
     var del = document.getElementsByClassName("delete-button");
     for (var i = 0; i < del.length; i++) {
@@ -30,6 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     clearInterval(deleteIntervalId);
   }
+
   function editStory() {
     var edit = document.getElementsByClassName("edit-button");
     var prevStoryContent;
@@ -65,10 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
               .then((response) => response.json())
               .then((data) => {
                 console.log("PATCH data:", data);
-                // window.location.reload();
               });
-          } else {
-            alert("they are the same bruh?");
           }
 
           this.innerHTML = "Edit Story";
