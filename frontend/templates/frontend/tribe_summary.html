@@ -1,8 +1,14 @@
 {% extends 'frontend/layout.html' %}
+{% load static %}
 
 {% block title %}
     View Summary
 {% endblock %}
+
+{% block styles_and_scripts %}
+    <link href="{% static 'frontend/tribe_summary.css' %}" rel="stylesheet">
+    <script src="{% static 'frontend/tribe_summary.js' %}"></script>
+{% endblock styles_and_scripts %}
 
 {% block user_links %}
   {% if username %}

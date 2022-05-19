@@ -1,8 +1,14 @@
 {% extends "frontend/layout.html" %}
+{% load static %}
 
 {% block title %}
   Create Story
 {% endblock %}
+
+{% block styles_and_scripts %}
+  <link href="{% static 'frontend/stories.css' %}" rel="stylesheet">
+  <script src="{% static 'frontend/create_story.js' %}"></script>
+{% endblock styles_and_scripts %}
 
 {% load crispy_forms_tags %}
 

@@ -1,21 +1,13 @@
-@import url('https://fonts.googleapis.com/css?family=Amatic+SC');
+@import url("https://fonts.googleapis.com/css?family=Amatic+SC");
 
-body {
-	margin: 0;
-	height: 100%;
-	background-image: linear-gradient(to top, #d9afd9 0%, #97d9e1 100%);
-	background-repeat: no-repeat;
-  background-size: cover;
-  background-attachment: fixed;
-}
-
-.description, .link {
-  font-family: 'Amatic SC', cursive;
+.description,
+.link {
+  font-family: "Amatic SC", cursive;
   text-align: center;
 }
 
 .description {
-	font-size: 35px;
+  font-size: 35px;
 }
 
 .btneffect {
@@ -33,11 +25,11 @@ body {
   background-color: #222;
   padding: 17px 60px;
   margin: 0 auto;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.20);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 .btneffect span {
-  position: relative; 
+  position: relative;
   z-index: 1;
 }
 
@@ -49,8 +41,8 @@ body {
   height: 490%;
   width: 140%;
   background: #78c7d2;
-  -webkit-transition: all .5s ease-in-out;
-  transition: all .5s ease-in-out;
+  -webkit-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
   -webkit-transform: translateX(-98%) translateY(-25%) rotate(45deg);
   transform: translateX(-98%) translateY(-25%) rotate(45deg);
 }
@@ -67,14 +59,14 @@ body {
 
 .link a {
   color: #000;
-  font-size: 25px; 
+  font-size: 25px;
 }
 
-.btneffect-container{
-    height: 90vh;
-    width: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+.btneffect-container {
+  height: 90vh;
+  width: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }

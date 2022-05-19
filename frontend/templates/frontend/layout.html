@@ -6,29 +6,15 @@
 
 <head>
     <title>{% block title %}{% endblock %}</title>
-
-    <link href="{% static 'frontend/explore_tribes.css' %}" rel="stylesheet">
-    <link href="{% static 'frontend/homepage.css' %}" rel="stylesheet">
+    
     <link href="{% static 'frontend/all_tribes.css' %}" rel="stylesheet">
-    <link href="{% static 'frontend/view_closest_territory.css' %}" rel="stylesheet">
-    <link href="{% static 'frontend/stories.css' %}" rel="stylesheet">
-    <link href="{% static 'frontend/tribe_summary.css' %}" rel="stylesheet">
-
-    <script src="{% static 'frontend/explore_tribes.js' %}"></script>
-    <script src="{% static 'frontend/view_closest_territory.js' %}"></script>
-    <script src="{% static 'frontend/tribe_summary.js' %}"></script>
-    <script src="{% static 'frontend/view_stories.js' %}"></script>
-    <script src="{% static 'frontend/my_stories.js' %}"></script>
-    <script src="{% static 'frontend/create_story.js' %}"></script>
-    <script src="{% static 'frontend/update_story.js' %}"></script>
-    <script src="{% static 'frontend/delete_story.js' %}"></script>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+    <link href="{% static 'frontend/homepage.css' %}" rel="stylesheet" />
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-    <link href='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' rel='stylesheet' />
+    integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    {% block styles_and_scripts %}{% endblock styles_and_scripts %}
 </head>
 
 <body>
@@ -73,7 +59,6 @@
     {% block body %}
     {% endblock %}
 
-    <script src='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js'></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"
         integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp"
         crossorigin="anonymous"></script>

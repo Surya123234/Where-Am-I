@@ -1,8 +1,14 @@
 {% extends "frontend/layout.html" %}
+{% load static %}
 
 {% block title %}
   View Stories
 {% endblock %}
+
+{% block styles_and_scripts %}
+  <link href="{% static 'frontend/stories.css' %}" rel="stylesheet">
+  <script src="{% static 'frontend/view_stories.js' %}"></script>
+{% endblock styles_and_scripts %}
 
 {% block user_links %}
   {% if username %}

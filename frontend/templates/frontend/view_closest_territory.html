@@ -1,4 +1,10 @@
 {% extends "frontend/layout.html" %}
+{% load static %}
+
+{% block styles_and_scripts %}
+  <link href="{% static 'frontend/view_closest_territory.css' %}" rel="stylesheet">
+  <script src="{% static 'frontend/view_closest_territory.js' %}"></script>
+{% endblock styles_and_scripts %}
 
 {% block title %}
 View Closest Territory

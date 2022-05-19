@@ -1,8 +1,16 @@
 {% extends "frontend/layout.html" %}
+{% load static %} 
 
 {% block title %}
   My Stories
 {% endblock %}
+
+{% block styles_and_scripts %}
+  <link href="{% static 'frontend/stories.css' %}" rel="stylesheet">
+  <script src="{% static 'frontend/my_stories.js' %}"></script>
+  <script src="{% static 'frontend/update_story.js' %}"></script>
+  <script src="{% static 'frontend/delete_story.js' %}"></script>
+{% endblock styles_and_scripts %}
 
 {% block user_links %}
     <a class="nav-link" href="/login">Switch User</a>

@@ -1,4 +1,12 @@
 {% extends "frontend/layout.html" %}
+{% load static %}
+
+{% block styles_and_scripts %}
+  <link href="{% static 'frontend/explore_tribes.css' %}" rel="stylesheet">
+  <link href='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' rel='stylesheet' />
+  <script src='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js'></script>
+  <script src="{% static 'frontend/explore_tribes.js' %}"></script>
+{% endblock styles_and_scripts %}
 
 {% block title %}
     Explore Tribes
