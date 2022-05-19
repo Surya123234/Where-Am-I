@@ -169,18 +169,8 @@ def update_story(request):
         story = Story.objects.get(id=int(id))
     except Story.DoesNotExist:
         return Response({"error": "The story does not exist!"})
-        return render(
-            request,
-            "api/story_does_not_exist.html",
-            {"username": username},
-        )
 
     if user != story.created_by:
-        # return render(
-        #     request,
-        #     "api/permission_error.html",
-        #     {"action": "edit", "username": username},
-        # )
         return Response({"error": "You do not have permission to edit this post!"})
 
     serializer = StorySerializer(instance=story, data=request.data, partial=True)
