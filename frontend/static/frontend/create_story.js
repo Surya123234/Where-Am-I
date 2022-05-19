@@ -20,7 +20,7 @@ window.onload = () => {
 };
 
 function createStory(csrftoken, title, content) {
-  var url = "http://127.0.0.1:8000/api/v1/create_story/";
+  var url = "/api/v1/create_story/";
   fetch(url, {
     method: "POST",
     headers: {

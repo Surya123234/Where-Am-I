@@ -102,19 +102,22 @@ def tribe_summary(request):
 
 @api_view(["GET"])
 def view_stories(request):
-    stories = Story.objects.all().order_by("-id")
-    serializer = StorySerializer(stories, many=True)
-    data = serializer.data
-    response = []
-    for obj in data:
-        el = {
-            "id": obj["id"],
-            "created_by": obj["created_by"]["username"],
-            "title": obj["title"],
-            "content": obj["content"],
-        }
-        response.append(el)
-    return Response(response)
+    try:
+        stories = Story.objects.all().order_by("-id")
+        serializer = StorySerializer(stories, many=True)
+        data = serializer.data
+        response = []
+        for obj in data:
+            el = {
+                "id": obj["id"],
+                "created_by": obj["created_by"]["username"],
+                "title": obj["title"],
+                "content": obj["content"],
+            }
+            response.append(el)
+        return Response(response)
+    except Exception as e:
+        return Response({"error": e})
 
 
 @api_view(["GET"])
@@ -165,20 +168,20 @@ def update_story(request):
         print(id)
         story = Story.objects.get(id=int(id))
     except Story.DoesNotExist:
+        return Response({"error": "The story does not exist!"})
         return render(
             request,
             "api/story_does_not_exist.html",
             {"username": username},
         )
-    # except Exception as e:
-    #     return Response({"error": e})
 
     if user != story.created_by:
-        return render(
-            request,
-            "api/permission_error.html",
-            {"action": "edit", "username": username},
-        )
+        # return render(
+        #     request,
+        #     "api/permission_error.html",
+        #     {"action": "edit", "username": username},
+        # )
+        return Response({"error": "You do not have permission to edit this post!"})
 
     serializer = StorySerializer(instance=story, data=request.data, partial=True)
     if serializer.is_valid():
@@ -191,25 +194,8 @@ def update_story(request):
             "content": data["content"],
         }
         return Response(response)
-
-        # return redirect(reverse("api:my_stories"))
     else:
-        # form = newStoryForm()
-        # form.fields["title"].widget.attrs["readonly"] = True
-        # return render(
-        #     request, "api/update_story.html", {"form": form, "username": username}
-        # )
-        return Response({"error": "didnt work!"})
-
-    # # GET request
-    # existing_story_info = {"title": story.title, "content": story.content}
-    # form = newStoryForm(initial=existing_story_info)
-    # form.fields["title"].widget.attrs["readonly"] = True
-    # return render(
-    #     request,
-    #     "api/update_story.html",
-    #     {"form": form, "story_id": story.id, "username": username},
-    # )
+        return Response({"error": "The story content is not valid!"})
 
 
 @api_view(["DELETE"])

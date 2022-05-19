@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
       console.log(del[i]);
       del[i].addEventListener("click", function (e) {
         var storyId = this.dataset.id;
-        var url = `http://127.0.0.1:8000/api/v1/delete_story/${storyId}`;
+        var url = `/api/v1/delete_story/${storyId}`;
         var csrftoken = getCookie("csrftoken");
         fetch(url, {
           method: "DELETE",
@@ -22,7 +22,6 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log("Data:", data);
             if (data["success"]) {
               window.location.href = "/my_stories/";
-              alert(data["details"]);
             } else {
               alert(data["details"]);
             }
@@ -51,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // If the content has not changed, no need to call API to save
             prevStoryContent = storyContent;
             csrftoken = getCookie("csrftoken");
-            var url = "http://127.0.0.1:8000/api/v1/update_story/";
+            var url = "/api/v1/update_story/";
             fetch(url, {
               method: "PATCH",
               headers: {
@@ -106,7 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function viewMyStories() {
-  var url = "http://127.0.0.1:8000/api/v1/my_stories/";
+  var url = "/api/v1/my_stories/";
   fetch(url)
     .then((response) => response.json())
     .then((data) => {

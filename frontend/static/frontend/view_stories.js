@@ -1,7 +1,7 @@
 viewAllStories();
 
 function viewAllStories() {
-  var url = "http://127.0.0.1:8000/api/v1/view_stories/";
+  var url = "/api/v1/view_stories/";
   fetch(url)
     .then((response) => response.json())
     .then((data) => {
