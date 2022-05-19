@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   viewMyStories();
   var deleteIntervalId = window.setInterval(deleteStory, 50);
-  var editIntervalId = window.setInterval(editStory, 50); // TODO: Finish Edit story... Make it like jira, where as soon as you press edit btn, it allows you to do it in real time (like jira)
+  var editIntervalId = window.setInterval(editStory, 50);
   function deleteStory() {
     var del = document.getElementsByClassName("delete-button");
     for (var i = 0; i < del.length; i++) {
@@ -38,8 +38,6 @@ document.addEventListener("DOMContentLoaded", () => {
     for (var i = 0; i < edit.length; i++) {
       console.log("Button index:", edit[i]);
 
-      // AFTER THIS
-
       edit[i].addEventListener("click", function (e) {
         var storyId = this.dataset.id;
         var contentField = document.getElementById(storyId);
@@ -49,13 +47,8 @@ document.addEventListener("DOMContentLoaded", () => {
             : contentField.value;
 
         if (this.innerHTML === "Save") {
-          console.log("content Field before object assign:", contentField);
-          // var storyContent = contentField.innerHTML;
-
-          // here, check if new innerHtml.trim() is the same as prev storyContent... if it is, no need to call API to save, just return; Else, call api to update
           if (prevStoryContent !== storyContent) {
-            // DOESN'T WORK???
-            // console.log("CHANGED:", storyContent);
+            // If the content has not changed, no need to call API to save
             prevStoryContent = storyContent;
             csrftoken = getCookie("csrftoken");
             var url = "http://127.0.0.1:8000/api/v1/update_story/";
@@ -93,7 +86,6 @@ document.addEventListener("DOMContentLoaded", () => {
           console.log("content Field before object assign:", contentField);
           prevStoryContent = storyContent;
           this.innerHTML = "Save";
-          //storyContent = contentField.innerHTML;
           const textareaContentField = Object.assign(
             document.createElement("textarea"),
             {
@@ -107,9 +99,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         console.log("ORIGINAL:", prevStoryContent);
         console.log("CHANGED:", storyContent);
-        //   <div class="story--content">
-        //   <textarea id=${stories[story].id} readonly> ${stories[story].content}</textarea>
-        // </div>
       });
     }
     clearInterval(editIntervalId);
@@ -159,7 +148,7 @@ function outputMyStories(stories) {
   }
   wrapper.innerHTML = items;
 }
-// href="/update_story/${stories[story].id}"
+
 function getCookie(name) {
   let cookieValue = null;
   if (document.cookie && document.cookie !== "") {
