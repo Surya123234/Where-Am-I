@@ -33,6 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   function editStory() {
     var edit = document.getElementsByClassName("edit-button");
+    var prevStoryContent;
 
     for (var i = 0; i < edit.length; i++) {
       console.log("Button index:", edit[i]);
@@ -52,31 +53,31 @@ document.addEventListener("DOMContentLoaded", () => {
           // var storyContent = contentField.innerHTML;
 
           // here, check if new innerHtml.trim() is the same as prev storyContent... if it is, no need to call API to save, just return; Else, call api to update
-          // if (storyContent !== storyContent) {
-          // DOESN'T WORK???
-          console.log("CHANGED:", storyContent);
-
-          csrftoken = getCookie("csrftoken");
-          var url = "http://127.0.0.1:8000/api/v1/update_story/";
-          fetch(url, {
-            method: "PATCH",
-            headers: {
-              "Content-type": "application/json",
-              "X-CSRFToken": csrftoken,
-            },
-            body: JSON.stringify({
-              id: storyId,
-              content: storyContent,
-            }),
-          })
-            .then((response) => response.json())
-            .then((data) => {
-              console.log("PATCH data:", data);
-              window.location.reload();
-            });
-          // } else {
-          //   alert("they are the same bruh?");
-          // }
+          if (prevStoryContent !== storyContent) {
+            // DOESN'T WORK???
+            // console.log("CHANGED:", storyContent);
+            prevStoryContent = storyContent;
+            csrftoken = getCookie("csrftoken");
+            var url = "http://127.0.0.1:8000/api/v1/update_story/";
+            fetch(url, {
+              method: "PATCH",
+              headers: {
+                "Content-type": "application/json",
+                "X-CSRFToken": csrftoken,
+              },
+              body: JSON.stringify({
+                id: storyId,
+                content: storyContent,
+              }),
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                console.log("PATCH data:", data);
+                // window.location.reload();
+              });
+          } else {
+            alert("they are the same bruh?");
+          }
 
           this.innerHTML = "Edit Story";
           const paragraphContentField = Object.assign(
@@ -90,6 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
           // innerHTML === "Edit Story"
           console.log("content Field before object assign:", contentField);
+          prevStoryContent = storyContent;
           this.innerHTML = "Save";
           //storyContent = contentField.innerHTML;
           const textareaContentField = Object.assign(
@@ -103,6 +105,8 @@ document.addEventListener("DOMContentLoaded", () => {
           );
           contentField.replaceWith(textareaContentField);
         }
+        console.log("ORIGINAL:", prevStoryContent);
+        console.log("CHANGED:", storyContent);
         //   <div class="story--content">
         //   <textarea id=${stories[story].id} readonly> ${stories[story].content}</textarea>
         // </div>
