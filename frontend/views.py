@@ -1,6 +1,8 @@
 from ipaddress import summarize_address_range
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+
 
 from api.forms import newStoryForm
 
@@ -50,11 +52,13 @@ def view_stories(request):
     return render(request, "frontend/view_stories.html", {"username": username})
 
 
+@login_required
 def my_stories(request):
     username = request.user.username
     return render(request, "frontend/my_stories.html", {"username": username})
 
 
+@login_required
 def create_story(request):
     username = request.user.username
     form = newStoryForm()
@@ -63,6 +67,7 @@ def create_story(request):
     )
 
 
+@login_required
 def update_story(request, id):
     username = request.user.username
     return render(
@@ -70,6 +75,7 @@ def update_story(request, id):
     )
 
 
+@login_required
 def delete_story(request, id):
     username = request.user.username
     return render(
