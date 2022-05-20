@@ -86,6 +86,11 @@ def tribe_summary(request):
         # However, one potential fix can be to check if an article exists for each tribe on Wikipedia prior to loading it on the interactive map
         # However, doing so will make the map loading speed extremely slow, since it will have to make hundreds of API calls just for the user to even see the loaded page
         # As a result, I opted for the current solution instead.
+        return Response(
+            {
+                "error": "The tribe you are looking for doesn't have a summary available! However, it is heavily encouraged for you to search it up manually!"
+            }
+        )
         return render(request, "api/error_tribe_summary.html")
 
     response = {

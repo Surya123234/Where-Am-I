@@ -37,7 +37,7 @@ async function renderMap() {
 
       for (let i = 0; i < slugNames.length; i++) {
         params = `slug_name=${slugNames[i]}&full_name=${fullNames[i]}`;
-        href = `<a href=http://127.0.0.1:8000/tribe_summary?${params}>${fullNames[i]}</a>`;
+        href = `<a href=http://127.0.0.1:8000/api/v1/tribe_summary?${params}>${fullNames[i]}</a>`;
         html += `<p style='margin: 0;'>${href}</p>`;
         console.log(href);
       }

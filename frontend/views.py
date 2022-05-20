@@ -1,3 +1,5 @@
+from ipaddress import summarize_address_range
+from django.http import HttpResponse
 from django.shortcuts import render
 
 from api.forms import newStoryForm
@@ -24,7 +26,23 @@ def view_closest_territory(request):
 
 def tribe_summary(request):
     username = request.user.username
-    return render(request, "frontend/tribe_summary.html", {"username": username})
+    name = request.GET.get("name")
+    summary = request.GET.get("summary")
+    link = request.GET.get("link")
+    image = request.GET.get("image")
+    print("RIGHT BEFORE RETURN RENDER")
+
+    return render(
+        request,
+        "frontend/tribe_summary.html",
+        {
+            "username": username,
+            "name": name,
+            "summary": summary,
+            "link": link,
+            "image": image,
+        },
+    )
 
 
 def view_stories(request):

@@ -14,17 +14,47 @@ function showPosition(position) {
   long = position.coords.longitude.toFixed(2);
   $.ajax({
     type: "GET",
-    url: "/api/find_closest_territory",
+    url: "/api/v1/find_closest_territory",
     data: {
       lat: lat,
       long: long,
     },
     dataType: "json",
     success: function (data) {
-      window.location.replace(`/api/v1/tribe_summary?full_name=${data.name}`);
+      getTribeInfo(data.name);
     },
     failure: function (data) {
       alert(`Failure, please try again! The error was: ${data.error}`);
     },
   });
+}
+
+function getTribeInfo(name) {
+  console.log("before GET tribe info api call");
+  $.ajax({
+    type: "GET",
+    url: "/api/v1/tribe_summary",
+    data: {
+      full_name: name,
+    },
+    dataType: "json",
+    success: function (data) {
+      console.log("before SHOW tribe info api call");
+      showTribeInfo(data);
+    },
+    failure: function (data) {
+      alert(`Error: ${data.error}`);
+    },
+  });
+
+  function showTribeInfo(data) {
+    name = data.name;
+    summary = data.summary;
+    link = data.link;
+    image = data.image;
+    console.log("before tribe SUMMARY info api call");
+    params = `name=${name}&summary=${summary}&link=${link}&image=${image}`;
+    url = `/tribe_summary?${params}`;
+    window.location.href = url;
+  }
 }
