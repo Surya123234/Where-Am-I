@@ -116,7 +116,7 @@ _Note: If you have `python2` installed instead, simply replace `pip3` with `pip`
 ###############
 
 ### Error Handling and Permission Validation
-Users will be automatically redirected to the login page, or a separate permission error page, depending on what action they try to do (e.g., user "A" trying to edit user "B"'s post by visiting the appropriate GET endpoint, or a user trying to create a post without being logged in). In the backend, appropriate JSON responses will be sent back to the frontend in the event of a failure.
+Users will be automatically redirected to the login page, or a separate permission error page, depending on what action they try to do (e.g., user "A" trying to edit user "B"'s post by submitting an appropriate API request, or a user trying to create a post without being logged in). In the backend, appropriate JSON responses will be sent back to the frontend in the event of a failure.
 
 # Future of the App
 More updates are on the way, and an iOS app is soon to be made to allow for easy mobile access! Let's all make an effort to increase awareness of Canada's Indigenous communities!!
