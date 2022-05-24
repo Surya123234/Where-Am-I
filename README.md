@@ -1,6 +1,6 @@
 
 # Summary
-Where Am I is an innovative full-stack app allowing users to learn about which **Indigenous** land they are on and about any Indigenous land across Canada and the rest of the world, and post tribe info to a feed with CRUD operations. It leverages the Google Geolocation API to get user lat/long, the Wikipedia API to get land summaries, and the Mapbox API to render an interactive map allowing users to select tribes. It was nade using Javascript, Django, SQLite, HTML, and CSS.
+Where Am I is an innovative full-stack app allowing users to learn about which **Indigenous** land they are on and about any Indigenous land across Canada and the rest of the world, and post tribe info to a feed with CRUD operations. It leverages the Google Geolocation API to get user lat/long, the Wikipedia API to get land summaries, and the Mapbox API to render an interactive map allowing users to select tribes. It was nade using Javascript, Django, REST API, SQLite, HTML, and CSS.
 
 # How to run the project locally
 clone the repo using `git clone https://github.com/Surya123234/Where-Am-I.git` 
