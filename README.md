@@ -19,10 +19,61 @@ open up `http://127.0.0.1:8000/` on your broswer to access the app!
 
 _Note: If you have `python2` installed instead, simply replace `pip3` with `pip`, and `python3` with `python` in the above commands._
 
-# Specifications
+# Specifications, Routes, and Functionalities
 
-### Homepage
-`GET /`: Where users see the main page and have get an idea of what the app is all about
+
+###############
+
+## API
+
+### Base URL
+`/api/v1/`
+
+### Find Closest Territory
+`GET /find_closest_territory/` (Internal): Calculates and returns the closest Indigenous territory compared to the user's location
+  - Request Paramaters:
+    - `lat`: The user's latitude
+    - `long`: The user's longitude
+
+### Tribe/Territory Summary
+`GET /tribe_summary/`: Returns the summary of the specified Indigenous tribe
+  - Request Paramaters:
+    - `full_name`: The tribe's full name
+    - `slug_name` (optional): The tribe's slugified name
+   
+### All Stories
+`GET /view_stories/`: Returns all the existing stories about any Indigenous tribe or territory
+
+### My Stories
+`GET /my_stories/`: Returns all the existing stories created by the logged in user
+
+### Create Story
+`POST /create_story/`: Submits the story information, persists it to the DB, and returns it
+  - Request Body:
+    - `created_by`: The user who created the story
+    - `title`: The story's title
+    - `content`: The content of the story
+
+### Update Story
+`PATCH /update_story/`: Submits the edited story information, updates it in the DB, and returns it
+  - Request Body:
+    - `id`: The story's id
+    - `created_by`: The user who created the story
+    - `title`: The story's title
+    - `content`: The content of the story
+
+### Delete Story
+`DELETE /delete_story/{id}/`: Deletes a story a user previously created in the DB 
+  - Path Variable:
+    - `id`: The story's id
+
+
+###############
+
+## Frontend
+
+### Base URL
+`/`
 
 ### Register
 `GET /register/`: Allows users to register as a new user on a form
@@ -35,21 +86,22 @@ _Note: If you have `python2` installed instead, simply replace `pip3` with `pip`
 ### Logout
 `GET /logout/`: Allows users to log out of their account
 
+### Homepage
+`GET /`: Where users see the main page and have get an idea of what the app is all about
+
 ### Explore Tribes
 `GET /explore_tribes/`: Allows users to pick and view any Indigenous land across Canada and the United States
 
 ### View Closest Territory
 `GET /view_closest_territory/`: Allows users to submit their location, in order to learn about the Indigenous territory they are on
 
-`GET /find_closest_territory/` (Internal): Calculates the closest Indigenous territory compared to the user's location
-  - Request Paramaters:
-    - `lat`: The user's latitude
-    - `long`: The user's longitude
-
 ### View Tribe/Territory Summary
 `GET /tribe_summary/`: Displays the summary of the specified Indigenous tribe
   - Request Paramaters:
     - `name`: The tribe's name
+    - `summary`: The tribe's summary
+    - `link`: The link to get more info about the tribe
+    - `image`: An image of the tribe, if not null.
    
 ### View All Stories
 `GET /view_stories/`: Allows users to view all the stories about any Indigenous tribe or territory
@@ -58,24 +110,13 @@ _Note: If you have `python2` installed instead, simply replace `pip3` with `pip`
 `GET /my_stories/`: Allows users to view all the stories created by themselves
 
 ### Create Story
-`GET /create_story/`: Allows users to enter story information on a form
+`GET /create_story/`: Allows users to enter story information on a form in order to create one
 
-`POST /create_story/`: Submits the story information, saves it to the DB, and redirects the user to view their stories
 
-### Update Story
-`GET /update_story/{id}/`: Allows users to edit and save the content of a story they previously created on a form
-
-`PATCH /update_story/{id}/`: Submits the edited story information, updates it in the DB, and redirects the user to view their stories
-  - Path Variable:
-    - `id`: The story's id
-
-### Delete Story
-`DELETE /delete_story/{id}/`: Deletes a story a user previously created, and redirects them to view their stories 
-  - Path Variable:
-    - `id`: The story's id
+###############
 
 ### Error Handling and Permission Validation
-Users will be automatically redirected to the login page, or a separate permission error page, depending on what action they try to do (e.g., user "A" trying to edit user "B"'s post by visiting the appropriate GET endpoint, or a user trying to create a post without being logged in).
+Users will be automatically redirected to the login page, or a separate permission error page, depending on what action they try to do (e.g., user "A" trying to edit user "B"'s post by visiting the appropriate GET endpoint, or a user trying to create a post without being logged in). In the backend, appropriate JSON responses will be sent back to the frontend in the event of a failure.
 
 # Future of the App
 More updates are on the way, and an iOS app is soon to be made to allow for easy mobile access! Let's all make an effort to increase awareness of Canada's Indigenous communities!!
