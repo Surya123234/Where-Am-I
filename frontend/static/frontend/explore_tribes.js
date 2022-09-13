@@ -25,8 +25,9 @@ async function renderMap() {
     });
 
     map.on("click", "tribeLocationsUnique", (e) => {
+      console.clear();
       const slugNames = e.features.map((f) => {
-        console.log("TRIBE NAME " + f.properties.Slug);
+        // console.log("TRIBE NAME " + f.properties.Slug);
         return f.properties.Slug;
       });
       const fullNames = e.features.map((f) => {
@@ -43,12 +44,16 @@ async function renderMap() {
         text-decoration: underline;'>
         ${href}</p>`;
 
-        console.log("HTML IS " + html);
         console.log("I is " + i);
+      }
 
-        new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(html).addTo(map);
+      console.log("HTML IS " + html);
 
+      new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(html).addTo(map);
+
+      for (let i = 0; i < slugNames.length; i++) {
         document.getElementById(i).addEventListener("click", (e) => {
+          // console.log("Clicking the tribe " + fullNames[i]);
           getTribeInfo(fullNames[i], slugNames[i]);
         });
       }
