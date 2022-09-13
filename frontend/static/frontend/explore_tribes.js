@@ -26,7 +26,7 @@ async function renderMap() {
 
     map.on("click", "tribeLocationsUnique", (e) => {
       const slugNames = e.features.map((f) => {
-        console.log(f.properties.Slug);
+        console.log("TRIBE NAME " + f.properties.Slug);
         return f.properties.Slug;
       });
       const fullNames = e.features.map((f) => {
@@ -36,16 +36,22 @@ async function renderMap() {
       let html = ``;
 
       for (let i = 0; i < slugNames.length; i++) {
-        // params = `slug_name=${slugNames[i]}&full_name=${fullNames[i]}`;
-        // href = `<a href=http://127.0.0.1:8000/api/v1/tribe_summary?${params}>${fullNames[i]}</a>`;
-        href = `<a id=${i}>${fullNames[i]}</a>`;
-        html += `<p style='margin: 0;'>${href}</p>`;
-        console.log(href);
+        href = `<span id=${i}>${fullNames[i]}</span>`;
+        html += `
+        <p style='margin: 0; 
+        color: blue;
+        text-decoration: underline;'>
+        ${href}</p>`;
+
+        console.log("HTML IS " + html);
+        console.log("I is " + i);
+
+        new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(html).addTo(map);
+
         document.getElementById(i).addEventListener("click", (e) => {
           getTribeInfo(fullNames[i], slugNames[i]);
-        }); // TODO: USE CLASS NAME INSTEAD OF ID TO LOOP OVER ALL LINKS AND CHECK USING SAME LOGIC --> ONLY DIFF IS THAT I NEED TO LOOP OVER EACH ONE NOW
+        });
       }
-      new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(html).addTo(map);
     });
 
     // Change the cursor back to a pointer
@@ -63,7 +69,7 @@ async function renderMap() {
 }
 
 function getTribeInfo(fullName, slugName) {
-  // console.log("before GET tribe info api call");
+  console.log("before GET tribe info api call");
   $.ajax({
     type: "GET",
     url: "/api/v1/tribe_summary",
@@ -73,7 +79,7 @@ function getTribeInfo(fullName, slugName) {
     },
     dataType: "json",
     success: function (data) {
-      // console.log("before SHOW tribe info api call");
+      console.log("before SHOW tribe info api call");
       showTribeInfo(data);
     },
     failure: function (data) {
@@ -87,7 +93,7 @@ function showTribeInfo(data) {
   let summary = data.summary;
   let link = data.link;
   let image = data.image;
-  // console.log("before tribe SUMMARY info api call");
+  console.log("before tribe SUMMARY info call");
   let params = `name=${name}&summary=${summary}&link=${link}&image=${image}`;
   let url = `/tribe_summary?${params}`;
   window.location.href = url;
