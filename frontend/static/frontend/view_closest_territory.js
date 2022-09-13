@@ -46,15 +46,15 @@ function getTribeInfo(name) {
       alert(`Error: ${data.error}`);
     },
   });
+}
 
-  function showTribeInfo(data) {
-    name = data.name;
-    summary = data.summary;
-    link = data.link;
-    image = data.image;
-    console.log("before tribe SUMMARY info api call");
-    params = `name=${name}&summary=${summary}&link=${link}&image=${image}`;
-    url = `/tribe_summary?${params}`;
-    window.location.href = url;
-  }
+function showTribeInfo(data) {
+  let name = data.name;
+  let summary = data.summary;
+  let link = data.link;
+  let image = data.image;
+  console.log("before tribe SUMMARY info api call");
+  let params = `name=${name}&summary=${summary}&link=${link}&image=${image}`;
+  let url = `/tribe_summary?${params}`;
+  window.location.href = url;
 }
