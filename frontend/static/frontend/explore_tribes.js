@@ -1,3 +1,5 @@
+import { getTribeInfo } from "./api_calls.js";
+
 renderMap();
 
 async function renderMap() {
@@ -37,10 +39,11 @@ async function renderMap() {
       let html = ``;
 
       for (let i = 0; i < slugNames.length; i++) {
-        href = `<span id=${i}>${fullNames[i]}</span>`;
+        var href = `<span id=${i}>${fullNames[i]}</span>`;
         html += `
         <p style='margin: 0; 
         color: blue;
+        cursor: pointer;
         text-decoration: underline;'>
         ${href}</p>`;
 
@@ -71,37 +74,6 @@ async function renderMap() {
       map.getCanvas().style.cursor = "";
     });
   });
-}
-
-function getTribeInfo(fullName, slugName) {
-  console.log("before GET tribe info api call");
-  $.ajax({
-    type: "GET",
-    url: "/api/v1/tribe_summary",
-    data: {
-      full_name: fullName,
-      slug_name: slugName,
-    },
-    dataType: "json",
-    success: function (data) {
-      console.log("before SHOW tribe info api call");
-      showTribeInfo(data);
-    },
-    failure: function (data) {
-      alert(`Error: ${data.error}`);
-    },
-  });
-}
-
-function showTribeInfo(data) {
-  let name = data.name;
-  let summary = data.summary;
-  let link = data.link;
-  let image = data.image;
-  console.log("before tribe SUMMARY info call");
-  let params = `name=${name}&summary=${summary}&link=${link}&image=${image}`;
-  let url = `/tribe_summary?${params}`;
-  window.location.href = url;
 }
 
 async function getData(
