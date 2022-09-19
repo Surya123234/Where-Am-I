@@ -1,4 +1,5 @@
 import { getTribeInfo } from "./api_calls.js";
+import { showTribeInfo } from "./utils.js";
 
 renderMap();
 
@@ -55,9 +56,10 @@ async function renderMap() {
       new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(html).addTo(map);
 
       for (let i = 0; i < slugNames.length; i++) {
-        document.getElementById(i).addEventListener("click", (e) => {
+        document.getElementById(i).addEventListener("click", async (e) => {
           // console.log("Clicking the tribe " + fullNames[i]);
-          getTribeInfo(fullNames[i], slugNames[i]);
+          let tribeInfo = await getTribeInfo(fullNames[i], slugNames[i]);
+          showTribeInfo(tribeInfo);
         });
       }
     });

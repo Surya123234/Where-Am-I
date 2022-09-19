@@ -1,22 +1,26 @@
-import { showTribeInfo } from "./utils.js";
-
 function getTribeInfo(fullName, slugName) {
   console.log("before GET tribe info api call");
-  $.ajax({
-    type: "GET",
-    url: "/api/v1/tribe_summary",
-    data: {
-      full_name: fullName,
-      slug_name: slugName,
-    },
-    dataType: "json",
-    success: function (data) {
-      console.log("before SHOW tribe info api call");
-      showTribeInfo(data);
-    },
-    failure: function (data) {
-      alert(`Error: ${data.error}`);
-    },
+  return new Promise((resolve, reject) => {
+    try {
+      $.ajax({
+        type: "GET",
+        url: "/api/v1/tribe_summary",
+        data: {
+          full_name: fullName,
+          slug_name: slugName,
+        },
+        dataType: "json",
+        success: function (data) {
+          console.log("before SHOW tribe info api call");
+          resolve(data);
+        },
+        failure: function (data) {
+          alert(`Error: ${data.error}`);
+        },
+      });
+    } catch (err) {
+      reject(err);
+    }
   });
 }
 
