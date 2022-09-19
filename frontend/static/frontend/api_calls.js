@@ -43,12 +43,18 @@ function getTribeInfo(fullName, slugName) {
 
 function viewAllStories() {
   var url = "/api/v1/view_stories/";
-  fetch(url)
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("Data:", data);
-      outputAllStories(data);
-    });
+  return new Promise((resolve, reject) => {
+    try {
+      fetch(url)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Data:", data);
+          resolve(data);
+        });
+    } catch (err) {
+      reject(err);
+    }
+  });
 }
 
 function deleteStory() {
@@ -190,4 +196,4 @@ function getCookie(name) {
   return cookieValue;
 }
 
-export { getTribeInfo };
+export { getTribeInfo, viewAllStories };

@@ -1,16 +1,10 @@
-viewAllStories();
+import { viewAllStories } from "./API_Calls.js";
 
-function viewAllStories() {
-  var url = "/api/v1/view_stories/";
-  fetch(url)
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("Data:", data);
-      outputAllStories(data);
-    });
-}
+outputAllStories();
 
-function outputAllStories(stories) {
+async function outputAllStories() {
+  let stories = await viewAllStories();
+  console.log("STORIES ARE " + stories);
   var wrapper = document.getElementById("all-stories-wrapper");
   var items = ``;
   if (stories === null) {
