@@ -24,26 +24,26 @@ function getTribeInfo(fullName, slugName) {
   });
 }
 
-// function showPosition(position) {
-//   // sending coordinates to backend
-//   let lat = position.coords.latitude.toFixed(2);
-//   let long = position.coords.longitude.toFixed(2);
-//   $.ajax({
-//     type: "GET",
-//     url: "/api/v1/find_closest_territory",
-//     data: {
-//       lat: lat,
-//       long: long,
-//     },
-//     dataType: "json",
-//     success: function (data) {
-//       getTribeInfo(data.name);
-//     },
-//     failure: function (data) {
-//       alert(`Failure, please try again! The error was: ${data.error}`);
-//     },
-//   });
-// }
+function getClosestTribe(position) {
+  // sending coordinates to backend
+  let lat = position.coords.latitude.toFixed(2);
+  let long = position.coords.longitude.toFixed(2);
+  $.ajax({
+    type: "GET",
+    url: "/api/v1/find_closest_territory",
+    data: {
+      lat: lat,
+      long: long,
+    },
+    dataType: "json",
+    success: function (data) {
+      getTribeInfo(data.name);
+    },
+    failure: function (data) {
+      alert(`Failure, please try again! The error was: ${data.error}`);
+    },
+  });
+}
 
 function viewAllStories() {
   var url = "/api/v1/view_stories/";
@@ -166,6 +166,7 @@ function getCookie(name) {
 
 export {
   getTribeInfo,
+  getClosestTribe,
   viewAllStories,
   viewMyStories,
   editStory,
