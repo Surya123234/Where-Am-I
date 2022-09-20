@@ -24,24 +24,33 @@ function getTribeInfo(fullName, slugName) {
   });
 }
 
-function getClosestTribe(position) {
-  // sending coordinates to backend
-  let lat = position.coords.latitude.toFixed(2);
-  let long = position.coords.longitude.toFixed(2);
-  $.ajax({
-    type: "GET",
-    url: "/api/v1/find_closest_territory",
-    data: {
-      lat: lat,
-      long: long,
-    },
-    dataType: "json",
-    success: function (data) {
-      getTribeInfo(data.name);
-    },
-    failure: function (data) {
-      alert(`Failure, please try again! The error was: ${data.error}`);
-    },
+function getClosestTribe(lat, long) {
+  return new Promise((resolve, reject) => {
+    try {
+      var url = "/api/v1/view_stories/";
+      // sending coordinates to backend
+      // let lat = position.coords.latitude.toFixed(2);
+      // let long = position.coords.longitude.toFixed(2);
+
+      $.ajax({
+        type: "GET",
+        url: "/api/v1/find_closest_territory",
+        data: {
+          lat: lat,
+          long: long,
+        },
+        dataType: "json",
+        success: function (data) {
+          // getTribeInfo(data.name);
+          resolve(data);
+        },
+        failure: function (data) {
+          alert(`Failure, please try again! The error was: ${data.error}`);
+        },
+      });
+    } catch (err) {
+      reject(err);
+    }
   });
 }
 
