@@ -96,21 +96,20 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     clearInterval(editIntervalId);
   }
-});
-
-function deletee() {
-  var del = document.getElementsByClassName("delete-button");
-  for (var i = 0; i < del.length; i++) {
-    let currentStoryId = del[i].dataset.id;
-    del[i].addEventListener("click", async (e) => {
-      let data = await deleteStory(currentStoryId);
-      if (data["success"]) {
-        location.reload();
-      } else {
-        // alert(data["details"]);
-        alert("beufsdfdsf");
-      }
-    });
+  function deletee() {
+    var del = document.getElementsByClassName("delete-button");
+    for (var i = 0; i < del.length; i++) {
+      let currentStoryId = del[i].dataset.id;
+      del[i].addEventListener("click", async (e) => {
+        let data = await deleteStory(currentStoryId);
+        if (data["success"]) {
+          location.reload();
+        } else {
+          // alert(data["details"]);
+          alert("beufsdfdsf");
+        }
+      });
+    }
+    clearInterval(deleteIntervalId);
   }
-  clearInterval(deleteIntervalId);
-}
+});

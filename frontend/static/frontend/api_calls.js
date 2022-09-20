@@ -127,17 +127,24 @@ function deleteStory(storyId) {
   });
 }
 
-function createStory(csrftoken, title, content) {
-  var url = "/api/v1/create_story/";
-  fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-type": "application/json",
-      "X-CSRFToken": csrftoken,
-    },
-    body: JSON.stringify({ title: title, content: content }),
-  }).then(() => {
-    window.location.href = "/my_stories/";
+function createStory(title, content) {
+  return new Promise((resolve, reject) => {
+    try {
+      let csrftoken = getCookie("csrftoken");
+      var url = "/api/v1/create_story/";
+      fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+          "X-CSRFToken": csrftoken,
+        },
+        body: JSON.stringify({ title: title, content: content }),
+      }).then((data) => {
+        resolve(data);
+      });
+    } catch (err) {
+      reject(err);
+    }
   });
 }
 
@@ -157,4 +164,11 @@ function getCookie(name) {
   return cookieValue;
 }
 
-export { getTribeInfo, viewAllStories, viewMyStories, editStory, deleteStory };
+export {
+  getTribeInfo,
+  viewAllStories,
+  viewMyStories,
+  editStory,
+  deleteStory,
+  createStory,
+};
