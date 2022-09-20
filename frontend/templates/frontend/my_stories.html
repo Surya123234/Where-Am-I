@@ -7,9 +7,7 @@
 
 {% block styles_and_scripts %}
   <link href="{% static 'frontend/stories.css' %}" rel="stylesheet">
-  <script src="{% static 'frontend/my_stories.js' %}"></script>
-  <script src="{% static 'frontend/update_story.js' %}"></script>
-  <script src="{% static 'frontend/delete_story.js' %}"></script>
+  <script type="module" src="{% static 'frontend/my_stories.js' %}"></script>
 {% endblock styles_and_scripts %}
 
 {% block user_links %}

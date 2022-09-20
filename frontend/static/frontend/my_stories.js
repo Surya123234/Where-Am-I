@@ -1,47 +1,57 @@
-document.addEventListener("DOMContentLoaded", () => {
-  viewMyStories();
+import { viewMyStories, editStory, deleteStory } from "./api_calls.js";
 
-  var deleteIntervalId = window.setInterval(deleteStory, 50);
-  var editIntervalId = window.setInterval(editStory, 50);
+document.addEventListener("DOMContentLoaded", async () => {
+  let stories = await viewMyStories();
+  outputMyStories(stories);
 
-  function deleteStory() {
-    var del = document.getElementsByClassName("delete-button");
-    for (var i = 0; i < del.length; i++) {
-      console.log(del[i]);
-      del[i].addEventListener("click", function (e) {
-        var storyId = this.dataset.id;
-        var url = `/api/v1/delete_story/${storyId}`;
-        var csrftoken = getCookie("csrftoken");
-        fetch(url, {
-          method: "DELETE",
-          headers: {
-            "Content-type": "application/json",
-            "X-CSRFToken": csrftoken,
-          },
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            console.log("Data:", data);
-            if (data["success"]) {
-              window.location.href = "/my_stories/";
-            } else {
-              alert(data["details"]);
-            }
-          });
-      });
+  var deleteIntervalId = window.setInterval(deletee, 50);
+  var editIntervalId = window.setInterval(edit, 50);
+
+  function outputMyStories(stories) {
+    var wrapper = document.getElementById("my-stories-wrapper");
+    var items = ``;
+    if (stories.length === 0) {
+      items = `
+          <div class="story--title">
+              <h1>You have created no stories. What are you waiting for? Create one
+                  <a href="/create_story">Here!</a>
+              </h1>
+          </div>
+        `;
+    } else {
+      for (var story in stories) {
+        var item = `
+          <div class="story--container">
+            <div class="story--title">
+              <h2>${stories[story].title}</h2>
+            </div>
+            <div class="story--content">
+              <p id=${stories[story].id}> ${stories[story].content}</p>
+            </div>
+            <div class="story--links">
+              <a class="btn btn-warning edit-button" data-id=${stories[story].id} >Edit Story</a>
+              <a class="btn btn-danger delete-button" data-id=${stories[story].id} >Delete Story</a>
+            </div>
+            <hr>
+          </div>
+          `;
+        items += item;
+      }
     }
-    clearInterval(deleteIntervalId);
+    wrapper.innerHTML = items;
   }
 
-  function editStory() {
+  function edit() {
     var edit = document.getElementsByClassName("edit-button");
     var prevStoryContent;
 
     for (var i = 0; i < edit.length; i++) {
-      console.log("Button index:", edit[i]);
+      // console.log("Button index:", edit[i]);
 
       edit[i].addEventListener("click", function (e) {
         var storyId = this.dataset.id;
+        // console.log("STORY ID -> " + this.dataset.id);
+
         var contentField = document.getElementById(storyId);
         var storyContent =
           contentField.nodeName == "P"
@@ -52,23 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
           if (prevStoryContent !== storyContent) {
             // If the content has not changed, no need to call API to save
             prevStoryContent = storyContent;
-            csrftoken = getCookie("csrftoken");
-            var url = "/api/v1/update_story/";
-            fetch(url, {
-              method: "PATCH",
-              headers: {
-                "Content-type": "application/json",
-                "X-CSRFToken": csrftoken,
-              },
-              body: JSON.stringify({
-                id: storyId,
-                content: storyContent,
-              }),
-            })
-              .then((response) => response.json())
-              .then((data) => {
-                console.log("PATCH data:", data);
-              });
+            editStory(storyId, storyContent);
           }
 
           this.innerHTML = "Edit Story";
@@ -104,62 +98,19 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-function viewMyStories() {
-  var url = "/api/v1/my_stories/";
-  fetch(url)
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("Data:", data);
-      outputMyStories(data);
-    });
-}
-
-function outputMyStories(stories) {
-  var wrapper = document.getElementById("my-stories-wrapper");
-  var items = ``;
-  if (stories.length === 0) {
-    items = `
-        <div class="story--title">
-            <h1>You have created no stories. What are you waiting for? Create one
-                <a href="/create_story">Here!</a>
-            </h1>
-        </div>
-      `;
-  } else {
-    for (var story in stories) {
-      var item = `
-        <div class="story--container">
-          <div class="story--title">
-            <h2>${stories[story].title}</h2>
-          </div>
-          <div class="story--content">
-            <p id=${stories[story].id}> ${stories[story].content}</p>
-          </div>
-          <div class="story--links">
-            <a class="btn btn-warning edit-button" data-id=${stories[story].id} >Edit Story</a>
-            <a class="btn btn-danger delete-button" data-id=${stories[story].id} >Delete Story</a>
-          </div>
-          <hr>
-        </div>
-        `;
-      items += item;
-    }
-  }
-  wrapper.innerHTML = items;
-}
-
-function getCookie(name) {
-  let cookieValue = null;
-  if (document.cookie && document.cookie !== "") {
-    const cookies = document.cookie.split(";");
-    for (let i = 0; i < cookies.length; i++) {
-      const cookie = cookies[i].trim();
-      // Does this cookie string begin with the name we want?
-      if (cookie.substring(0, name.length + 1) === name + "=") {
-        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-        break;
+function deletee() {
+  var del = document.getElementsByClassName("delete-button");
+  for (var i = 0; i < del.length; i++) {
+    let currentStoryId = del[i].dataset.id;
+    del[i].addEventListener("click", async (e) => {
+      let data = await deleteStory(currentStoryId);
+      if (data["success"]) {
+        location.reload();
+      } else {
+        // alert(data["details"]);
+        alert("beufsdfdsf");
       }
-    }
+    });
   }
-  return cookieValue;
+  clearInterval(deleteIntervalId);
 }
