@@ -1,3 +1,6 @@
+// import { getTribeInfo } from "./api_calls.js";
+import { showTribeInfo } from "./utils.js";
+
 let lat = 0,
   long = 0; // coordinates
 
@@ -46,15 +49,4 @@ function getTribeInfo(name) {
       alert(`Error: ${data.error}`);
     },
   });
-}
-
-function showTribeInfo(data) {
-  let name = data.name;
-  let summary = data.summary;
-  let link = data.link;
-  let image = data.image;
-  console.log("before tribe SUMMARY info api call");
-  let params = `name=${name}&summary=${summary}&link=${link}&image=${image}`;
-  let url = `/tribe_summary?${params}`;
-  window.location.href = url;
 }
